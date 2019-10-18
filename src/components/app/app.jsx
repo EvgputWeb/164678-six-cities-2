@@ -1,6 +1,6 @@
 import React from "react";
 
-const App = () => {
+export default function App() {
   return (
     <div className="page page--gray page--main">
 
@@ -80,6 +80,5 @@ const App = () => {
 
     </div>
   );
-};
+}
 
-export default App;
