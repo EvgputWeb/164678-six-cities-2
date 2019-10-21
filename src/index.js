@@ -1,15 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from './components/app/app.jsx';
+import places from './data/places.js';
 
 ReactDOM.render(
     <App
-      placesList={[
-        `Beautiful & luxurious apartment at great location`,
-        `Wood and stone place`,
-        `Canal View Prinsengracht`,
-        `Nice, cozy, warm big bed apartment`
-      ]}
+      placesList={places}
     />,
     document.getElementById(`root`)
 );
