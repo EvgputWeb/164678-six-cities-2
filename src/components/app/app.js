@@ -1,13 +1,12 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './header.jsx';
-import Nav from './nav.jsx';
-import Map from './map.jsx';
-import SortForm from './sort-form.jsx';
-import Places from './places.jsx';
+import Header from '../header/header.js';
+import Nav from '../nav/nav.js';
+import Map from '../map/map.js';
+import SortForm from '../sort-form/sort-form.js';
+import PlaceItem from '../place-item/place-item.js';
 
-
-export default function App({placesList}) {
+const App = ({placesList}) => {
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -21,9 +20,15 @@ export default function App({placesList}) {
               <b className="places__found">312 places to stay in Amsterdam</b>
               <SortForm />
               <div className="cities__places-list places__list tabs__content">
-                <Places
-                  placesList = {placesList}
-                />
+
+                {placesList.map((placeName, index) =>
+                  <PlaceItem
+                    key = {index}
+                    id = {index}
+                    name = {placeName}
+                  />
+                )}
+
               </div>
             </section>
             <Map />
@@ -32,9 +37,10 @@ export default function App({placesList}) {
       </main>
     </div>
   );
-}
-
+};
 
 App.propTypes = {
   placesList: PropTypes.arrayOf(PropTypes.string).isRequired
 };
+
+export default App;

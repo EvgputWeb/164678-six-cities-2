@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function PlaceItem({id, name}) {
+const PlaceItem = ({id, name}) => {
   return (
 
     <article key={id} className="cities__place-card place-card">
@@ -43,10 +43,11 @@ export default function PlaceItem({id, name}) {
     </article>
 
   );
-}
-
+};
 
 PlaceItem.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired
 };
+
+export default PlaceItem;

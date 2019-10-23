@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-export default function Nav() {
+const Nav = () => {
   return (
     <div className="tabs">
       <section className="locations container">
@@ -39,4 +39,6 @@ export default function Nav() {
       </section>
     </div>
   );
-}
+};
+
+export default Nav;

@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-export default function SortForm() {
+const SortForm = () => {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
@@ -18,4 +18,6 @@ export default function SortForm() {
       </ul>
     </form>
   );
-}
+};
+
+export default SortForm;
