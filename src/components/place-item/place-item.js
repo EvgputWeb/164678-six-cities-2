@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PlaceItem = ({id, name}) => {
+const PlaceItem = ({name}) => {
   return (
 
-    <article key={id} className="cities__place-card place-card">
+    <article className="cities__place-card place-card">
+
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
@@ -46,7 +47,6 @@ const PlaceItem = ({id, name}) => {
 };
 
 PlaceItem.propTypes = {
-  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired
 };
 

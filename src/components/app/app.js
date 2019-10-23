@@ -20,15 +20,9 @@ const App = ({placesList}) => {
               <b className="places__found">312 places to stay in Amsterdam</b>
               <SortForm />
               <div className="cities__places-list places__list tabs__content">
-
-                {placesList.map((placeName, index) =>
-                  <PlaceItem
-                    key = {index}
-                    id = {index}
-                    name = {placeName}
-                  />
+                {placesList.map((place) =>
+                  <PlaceItem key={place.id} {...place} />
                 )}
-
               </div>
             </section>
             <Map />
@@ -40,7 +34,12 @@ const App = ({placesList}) => {
 };
 
 App.propTypes = {
-  placesList: PropTypes.arrayOf(PropTypes.string).isRequired
+  placesList: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+      })
+  ),
 };
 
 export default App;
