@@ -21,7 +21,7 @@ const App = ({placesList}) => {
               <SortForm />
               <div className="cities__places-list places__list tabs__content">
                 {placesList.map((place) =>
-                  <PlaceItem key={place.id} {...place} />
+                  <PlaceItem key={place.id} {...place} onClick= {() => {}} />
                 )}
               </div>
             </section>
