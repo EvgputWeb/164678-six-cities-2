@@ -91,6 +91,7 @@ exports[`PlaceItem renders correctly 1`] = `
     >
       <a
         href="#"
+        onClick={[MockFunction]}
       >
         Just test name
       </a>

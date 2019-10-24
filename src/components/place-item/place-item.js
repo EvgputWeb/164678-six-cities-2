@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PlaceItem = ({name}) => {
+const PlaceItem = ({name, titleClickHandler}) => {
   return (
 
     <article className="cities__place-card place-card">
@@ -36,7 +36,7 @@ const PlaceItem = ({name}) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{name}</a>
+          <a href="#" onClick={titleClickHandler} >{name}</a>
         </h2>
         <p className="place-card__type">Apartment</p>
       </div>
@@ -46,8 +46,10 @@ const PlaceItem = ({name}) => {
   );
 };
 
+
 PlaceItem.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  titleClickHandler: PropTypes.func.isRequired
 };
 
 export default PlaceItem;

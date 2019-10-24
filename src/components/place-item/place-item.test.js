@@ -5,7 +5,7 @@ import testPlace from '../../data/test-place.js';
 
 it(`PlaceItem renders correctly`, () => {
   const placeItem = renderer
-    .create(<PlaceItem {...testPlace} />)
+    .create(<PlaceItem {...testPlace} titleClickHandler={jest.fn()} />)
     .toJSON();
 
   expect(placeItem).toMatchSnapshot();

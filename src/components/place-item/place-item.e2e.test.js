@@ -11,15 +11,11 @@ it(`PlaceItem e2e test`, () => {
 
   const clickHandler = jest.fn();
 
-  const placeItem = shallow(<PlaceItem {...testPlace} onClick={clickHandler} />);
-
-  // console.log(placeItem.find(`.place-card__name a`).length);
-  // expect(placeItem.find(`.place-card__name a`).exists()).toBe(true);
+  const placeItem = shallow(<PlaceItem {...testPlace} titleClickHandler={clickHandler} />);
 
   const itemHeaderLink = placeItem.find(`.place-card__name a`);
-
   expect(itemHeaderLink.exists()).toBe(true);
 
-  // itemHeaderLink.simulate(`click`);
-  // expect(clickHandler).toHaveBeenCalledTimes(1);
+  itemHeaderLink.simulate(`click`);
+  expect(clickHandler).toHaveBeenCalledTimes(1);
 });
