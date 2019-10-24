@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function PlaceItem({id, name}) {
+const PlaceItem = ({name, titleClickHandler}) => {
   return (
 
-    <article key={id} className="cities__place-card place-card">
+    <article className="cities__place-card place-card">
+
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
@@ -35,7 +36,7 @@ export default function PlaceItem({id, name}) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{name}</a>
+          <a href="#" onClick={titleClickHandler} >{name}</a>
         </h2>
         <p className="place-card__type">Apartment</p>
       </div>
@@ -43,10 +44,12 @@ export default function PlaceItem({id, name}) {
     </article>
 
   );
-}
+};
 
 
 PlaceItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  titleClickHandler: PropTypes.func.isRequired
 };
+
+export default PlaceItem;
