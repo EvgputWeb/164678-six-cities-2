@@ -4,7 +4,7 @@ import Header from '../header/header.js';
 import Nav from '../nav/nav.js';
 import Map from '../map/map.js';
 import SortForm from '../sort-form/sort-form.js';
-import PlaceItem from '../place-item/place-item.js';
+import PlacesList from '../places-list/places-list.js';
 
 const App = ({placesList}) => {
   return (
@@ -19,11 +19,7 @@ const App = ({placesList}) => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">312 places to stay in Amsterdam</b>
               <SortForm />
-              <div className="cities__places-list places__list tabs__content">
-                {placesList.map((place) =>
-                  <PlaceItem key={place.id} {...place} titleClickHandler={() => {}} />
-                )}
-              </div>
+              <PlacesList list={placesList} />
             </section>
             <Map />
           </div>
@@ -36,8 +32,13 @@ const App = ({placesList}) => {
 App.propTypes = {
   placesList: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string,
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        rating: PropTypes.number.isRequired,
+        isPremium: PropTypes.bool.isRequired,
+        isBookmarked: PropTypes.bool.isRequired
       })
   ),
 };
