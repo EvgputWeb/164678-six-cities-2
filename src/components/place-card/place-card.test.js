@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import PlaceCard from './place-card.js';
-import TEST_OFFER from '../../mocks/test-offer.js';
+import PlaceCard from './place-card';
+import TEST_OFFER from '../../mocks/test-offer';
 
 it(`PlaceCard renders correctly`, () => {
   const placeCard = renderer

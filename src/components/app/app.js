@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../header/header.js';
-import Nav from '../nav/nav.js';
-import Map from '../map/map.js';
-import SortForm from '../sort-form/sort-form.js';
-import PlacesList from '../places-list/places-list.js';
+import Header from '../header/header';
+import Nav from '../nav/nav';
+import Map from '../map/map';
+import SortForm from '../sort-form/sort-form';
+import PlacesList from '../places-list/places-list';
 
 const App = ({placesList}) => {
   return (

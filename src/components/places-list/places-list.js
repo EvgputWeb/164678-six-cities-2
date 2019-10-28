@@ -1,33 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card.js';
+import PlaceCard from '../place-card/place-card';
 
 
 class PlacesList extends React.PureComponent {
+  state = {
+    activeCard: {},
+  };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeCard: {},
-    };
-
-    this.mouseEnterHandler = (placeCard) => {
-      // eslint-disable-next-line no-console
-      // console.log(placeCard);
-      this.setState({
-        activeCard: placeCard // Object.assign({}, placeCard)
-      });
-    };
+  mouseEnterHandler = (placeCard) => {
+    this.setState({
+      activeCard: placeCard // Object.assign({}, placeCard)
+    });
   }
 
   render() {
     const {list} = this.props;
     return (
       <div className="cities__places-list places__list tabs__content">
-        {list.map((place) =>
+        {list.map((place) => (
           <PlaceCard key={place.id} {...place} onTitleClick={() => {}} onMouseEnter={this.mouseEnterHandler} />
-        )}
+        ))}
       </div>
     );
   }
