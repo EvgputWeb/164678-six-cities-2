@@ -4,6 +4,11 @@ env:
   commonjs: true
   jest: true
 
+parser: 'babel-eslint'
+
+rules:
+  no-invalid-this: 0
+
 extends: ['htmlacademy/es6', 'plugin:react/recommended']
 
 parserOptions:
