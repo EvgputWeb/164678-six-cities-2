@@ -4,11 +4,18 @@ import PlaceCard from '../place-card/place-card';
 
 
 class PlacesList extends React.PureComponent {
-  state = {
-    activeCard: {},
-  };
 
-  mouseEnterHandler = (placeCard) => {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeCard: {},
+    };
+
+    this.mouseEnterHandler = this.mouseEnterHandler.bind(this);
+  }
+
+  mouseEnterHandler(placeCard) {
     this.setState({
       activeCard: placeCard // Object.assign({}, placeCard)
     });
