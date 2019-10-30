@@ -9,7 +9,7 @@ class Map extends React.PureComponent {
 
     const icon = leaflet.icon({
       iconUrl: `img/pin.svg`,
-      iconSize: [30, 30]
+      iconSize: [27, 39]
     });
 
     const zoom = 12;
