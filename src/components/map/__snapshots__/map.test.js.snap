@@ -1,3 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Map render test 1`] = `ReactWrapper {}`;
+exports[`Map correctly renders 1`] = `
+<div
+  className="cities__map"
+  id="map"
+/>
+`;

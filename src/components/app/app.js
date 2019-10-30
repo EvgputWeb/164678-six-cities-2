@@ -22,9 +22,7 @@ const App = ({placesList}) => {
               <PlacesList list={placesList} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map list={placesList} />
-              </section>
+              <Map list={placesList} />
             </div>
           </div>
         </div>

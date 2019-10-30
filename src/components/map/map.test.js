@@ -1,17 +1,17 @@
 import React from 'react';
-import Enzyme, {mount} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import renderer from 'react-test-renderer';
 import Map from './map.js';
 import OFFERS from '../../mocks/offers.js';
 
-Enzyme.configure({adapter: new Adapter()});
 
-
-it(`Map render test`, () => {
+it(`Map correctly renders`, () => {
   const div = global.document.createElement(`div`);
+  div.id = `map`;
   global.document.body.appendChild(div);
 
-  const citiesMap = mount(<Map list={OFFERS} />, {attachTo: div});
+  const citiesMap = renderer
+    .create(<Map list={OFFERS} />)
+    .toJSON();
 
   expect(citiesMap).toMatchSnapshot();
 });
