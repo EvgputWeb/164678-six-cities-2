@@ -630,8 +630,9 @@ exports[`App renders correctly 1`] = `
         <div
           className="cities__right-section"
         >
-          <section
-            className="cities__map map"
+          <div
+            className="cities__map"
+            id="map"
           />
         </div>
       </div>

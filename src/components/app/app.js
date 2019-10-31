@@ -21,7 +21,9 @@ const App = ({placesList}) => {
               <SortForm />
               <PlacesList list={placesList} />
             </section>
-            <Map />
+            <div className="cities__right-section">
+              <Map list={placesList} />
+            </div>
           </div>
         </div>
       </main>

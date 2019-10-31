@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 class PlaceCard extends React.PureComponent {
 
-  mouseEnterHandler = () => {
+  constructor(props) {
+    super(props);
+    this.mouseEnterHandler = this.mouseEnterHandler.bind(this);
+  }
+
+  mouseEnterHandler() {
     this.props.onMouseEnter(this.props);
   }
 

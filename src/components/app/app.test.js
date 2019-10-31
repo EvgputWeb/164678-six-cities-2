@@ -5,6 +5,11 @@ import OFFERS from '../../mocks/offers.js';
 
 
 it(`App renders correctly`, () => {
+
+  const div = global.document.createElement(`div`);
+  div.id = `map`;
+  global.document.body.appendChild(div);
+
   const app = renderer
     .create(<App placesList={OFFERS} />)
     .toJSON();

@@ -1,11 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Map renders correctly 1`] = `
+exports[`Map correctly renders 1`] = `
 <div
-  className="cities__right-section"
->
-  <section
-    className="cities__map map"
-  />
-</div>
+  className="cities__map"
+  id="map"
+/>
 `;
