@@ -1,24 +1,30 @@
 import OFFERS from './mocks/offers';
 
-const INITIAL_CITY = `Amsterdam`;
+const getOffersByCity = (allOffers, city) => allOffers.filter((item) => item.city === city);
+
+const INITIAL_CITY = OFFERS[0].city;
 
 const initialState = {
   allOffers: OFFERS,
   city: INITIAL_CITY,
-  cityOffers: OFFERS.filter((place) => place.city === INITIAL_CITY),
+  cityOffers: getOffersByCity(OFFERS, INITIAL_CITY)
 };
 
+const ACTIONS = {
+  GET_CITY_OFFERS: `GET_CITY_OFFERS`,
+  CHANGE_CITY: `CHANGE_CITY`,
+};
 
 const ActionCreator = {
   changeCity: (city) => {
     return {
-      type: `CHANGE_CITY`,
+      type: ACTIONS.CHANGE_CITY,
       payload: city
     };
   },
   getOffers: (city) => {
     return {
-      type: `GET_CITY_OFFERS`,
+      type: ACTIONS.GET_CITY_OFFERS,
       payload: city
     };
   }
@@ -27,12 +33,12 @@ const ActionCreator = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case `CHANGE_CITY`: return Object.assign({}, state, {
+    case ACTIONS.CHANGE_CITY: return Object.assign({}, state, {
       city: action.payload
     });
 
-    case `GET_CITY_OFFERS`: return Object.assign({}, state, {
-      cityOffers: initialState.allOffers.filter((place) => place.city === action.payload)
+    case ACTIONS.GET_CITY_OFFERS: return Object.assign({}, state, {
+      cityOffers: getOffersByCity(initialState.allOffers, action.payload)
     });
   }
 
@@ -41,3 +47,5 @@ const reducer = (state = initialState, action) => {
 
 
 export {ActionCreator, reducer};
+
+export {initialState, ACTIONS, getOffersByCity}; // использую в  reducer.test.js и в app.test.js
