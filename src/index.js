@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {createStore} from 'redux';
+import {reducer} from './reducer';
+import {Provider} from 'react-redux';
 import App from './components/app/app';
-import OFFERS from './mocks/offers';
+
+const store = createStore(reducer);
 
 ReactDOM.render(
-    <App
-      placesList={OFFERS}
-    />,
+    <Provider store={store}>
+      <App />
+    </Provider>,
     document.getElementById(`root`)
 );
