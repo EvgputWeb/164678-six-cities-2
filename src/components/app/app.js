@@ -4,15 +4,17 @@ import {ActionCreator} from '../../reducer';
 import PropTypes from 'prop-types';
 import Header from '../header/header';
 import CitiesList from '../cities-list/cities-list';
-import Map from '../map/map';
+import MapComponent from '../map-component/map-component';
 import SortForm from '../sort-form/sort-form';
 import PlacesList from '../places-list/places-list';
 
 
 const App = ({allOffers, city, cityOffers, cityClickAction}) => {
 
+  const page = 0;
+  const perPage = 5;
   const citiesSet = new Set(allOffers.map((offer) => offer.city));
-  const citiesList = [...citiesSet].slice(0, 5);
+  const citiesList = [...citiesSet].slice(page * perPage, (page + 1) * perPage);
 
   return (
     <div className="page page--gray page--main">
@@ -33,7 +35,7 @@ const App = ({allOffers, city, cityOffers, cityClickAction}) => {
             </section>
 
             <div className="cities__right-section">
-              <Map list={cityOffers} />
+              <MapComponent list={cityOffers} />
             </div>
 
           </div>
@@ -65,7 +67,11 @@ App.propTypes = {
 
 
 // приклеиваем данные из store в наш компонент App
-const mapStateToProps = (store) => (store);
+const mapStateToProps = (store) => ({
+  allOffers: store.allOffers,
+  city: store.city,
+  cityOffers: store.cityOffers
+});
 
 // привязываем Actions
 const mapDispatchToProps = (dispatch) => ({

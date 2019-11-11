@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
 
 
-class Map extends React.PureComponent {
+class MapComponent extends React.PureComponent {
 
   constructor(props) {
     super(props);
@@ -26,8 +26,10 @@ class Map extends React.PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    this._showMarkers(this.props.list);
+  componentDidUpdate(prevProps) {
+    if (prevProps.list !== this.props.list) {
+      this._showMarkers(this.props.list);
+    }
   }
 
   componentDidMount() {
@@ -57,7 +59,7 @@ class Map extends React.PureComponent {
 }
 
 
-Map.propTypes = {
+MapComponent.propTypes = {
   list: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
@@ -73,4 +75,4 @@ Map.propTypes = {
 };
 
 
-export default Map;
+export default MapComponent;

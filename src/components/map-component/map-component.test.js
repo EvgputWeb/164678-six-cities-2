@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Map from './map.js';
-import OFFERS from '../../mocks/offers.js';
+import MapComponent from './map-component';
+import OFFERS from '../../mocks/offers';
 
 
 it(`Map correctly renders`, () => {
@@ -10,7 +10,7 @@ it(`Map correctly renders`, () => {
   global.document.body.appendChild(div);
 
   const citiesMap = renderer
-    .create(<Map list={OFFERS} />)
+    .create(<MapComponent list={OFFERS} />)
     .toJSON();
 
   expect(citiesMap).toMatchSnapshot();
