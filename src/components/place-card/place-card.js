@@ -6,10 +6,10 @@ class PlaceCard extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.mouseEnterHandler = this.mouseEnterHandler.bind(this);
+    this._mouseEnterHandler = this._mouseEnterHandler.bind(this);
   }
 
-  mouseEnterHandler() {
+  _mouseEnterHandler() {
     this.props.onMouseEnter(this.props);
   }
 
@@ -17,7 +17,7 @@ class PlaceCard extends React.PureComponent {
     const {name, type, price, rating, isPremium, isBookmarked, onTitleClick} = this.props;
 
     return (
-      <article className="cities__place-card place-card" onMouseEnter={this.mouseEnterHandler} >
+      <article className="cities__place-card place-card" onMouseEnter={this._mouseEnterHandler} onMouseLeave={this.props.onMouseLeave} >
         {isPremium && (
           <div className="place-card__mark">
             <span>Premium</span>
@@ -70,7 +70,8 @@ PlaceCard.propTypes = {
   isPremium: PropTypes.bool.isRequired,
   isBookmarked: PropTypes.bool.isRequired,
   onTitleClick: PropTypes.func.isRequired,
-  onMouseEnter: PropTypes.func.isRequired
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired
 };
 
 

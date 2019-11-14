@@ -3,35 +3,30 @@ import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
 
 
-class PlacesList extends React.PureComponent {
+const PlacesList = ({list, onActivateItem, onDeactivateItem}) => {
 
-  constructor(props) {
-    super(props);
+  const mouseEnterHandler = (placeCard) => () => {
+    onActivateItem(placeCard);
+  };
 
-    this.state = {
-      activeCard: {},
-    };
+  const mouseLeaveHandler = () => {
+    onDeactivateItem();
+  };
 
-    this.mouseEnterHandler = this.mouseEnterHandler.bind(this);
-  }
-
-  mouseEnterHandler(placeCard) {
-    this.setState({
-      activeCard: placeCard // Object.assign({}, placeCard)
-    });
-  }
-
-  render() {
-    const {list} = this.props;
-    return (
-      <div className="cities__places-list places__list tabs__content">
-        {list.map((place) => (
-          <PlaceCard key={place.id} {...place} onTitleClick={() => {}} onMouseEnter={this.mouseEnterHandler} />
-        ))}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="cities__places-list places__list tabs__content">
+      {list.map((place) => (
+        <PlaceCard
+          key={place.id}
+          {...place}
+          onTitleClick={() => {}}
+          onMouseEnter={mouseEnterHandler(place)}
+          onMouseLeave={mouseLeaveHandler}
+        />
+      ))}
+    </div>
+  );
+};
 
 
 PlacesList.propTypes = {
@@ -46,6 +41,8 @@ PlacesList.propTypes = {
         isBookmarked: PropTypes.bool.isRequired
       })
   ),
+  onActivateItem: PropTypes.func.isRequired,
+  onDeactivateItem: PropTypes.func.isRequired,
 };
 
 

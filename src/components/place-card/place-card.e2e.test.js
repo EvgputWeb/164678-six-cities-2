@@ -12,7 +12,13 @@ describe(`PlaceCard e2e test`, () => {
   const clickHandler = jest.fn();
   const mouseEnterHandler = jest.fn();
 
-  const placeCard = shallow(<PlaceCard {...TEST_OFFER} onTitleClick={clickHandler} onMouseEnter={() => mouseEnterHandler(TEST_OFFER)} />);
+  const placeCard = shallow(
+      <PlaceCard {...TEST_OFFER}
+        onTitleClick={clickHandler}
+        onMouseEnter={() => mouseEnterHandler(TEST_OFFER)}
+        onMouseLeave={jest.fn()}
+      />
+  );
 
   it(`PlaceCard click test`, () => {
     const placeCardHeaderLink = placeCard.find(`.place-card__name a`);

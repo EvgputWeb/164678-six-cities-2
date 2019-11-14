@@ -5,7 +5,7 @@ import TEST_OFFER from '../../mocks/test-offer';
 
 it(`PlaceCard renders correctly`, () => {
   const placeCard = renderer
-    .create(<PlaceCard {...TEST_OFFER} onTitleClick={jest.fn()} onMouseEnter={jest.fn()} />)
+    .create(<PlaceCard {...TEST_OFFER} onTitleClick={jest.fn()} onMouseEnter={jest.fn()} onMouseLeave={jest.fn()} />)
     .toJSON();
 
   expect(placeCard).toMatchSnapshot();

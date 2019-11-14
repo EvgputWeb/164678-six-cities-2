@@ -1,7 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../reducer';
 
-const CitiesList = ({list, selectedCity, onCityClick}) => {
+
+const CitiesList = ({list, activeItem, onActivateItem, cityClickAction}) => {
+
+  const cityClickHandler = (city) => (e) => {
+    e.preventDefault();
+    onActivateItem(city);
+    cityClickAction(city);
+  };
+
   return (
     <div className="tabs">
       <section className="locations container">
@@ -10,11 +20,8 @@ const CitiesList = ({list, selectedCity, onCityClick}) => {
           {list.map((city) => (
             <li key={city} className="locations__item">
               <a href="#"
-                className={`locations__item-link tabs__item` + ((city === selectedCity) && (` tabs__item--active`)) }
-                onClick={(e)=>{
-                  e.preventDefault();
-                  onCityClick(city);
-                }}
+                className={`locations__item-link tabs__item` + ((city === activeItem) && (` tabs__item--active`)) }
+                onClick={cityClickHandler(city)}
               >
                 <span>{city}</span>
               </a>
@@ -30,9 +37,21 @@ const CitiesList = ({list, selectedCity, onCityClick}) => {
 
 CitiesList.propTypes = {
   list: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  selectedCity: PropTypes.string.isRequired,
-  onCityClick: PropTypes.func.isRequired
+  activeItem: PropTypes.string.isRequired,
+  onActivateItem: PropTypes.func.isRequired,
+  cityClickAction: PropTypes.func.isRequired
 };
 
 
-export default CitiesList;
+// привязываем Actions
+const mapDispatchToProps = (dispatch) => ({
+  cityClickAction: (city) => {
+    dispatch(ActionCreator.changeCity(city));
+    dispatch(ActionCreator.getOffers(city));
+  },
+});
+
+
+export {CitiesList};
+export default connect(null, mapDispatchToProps)(CitiesList);
+

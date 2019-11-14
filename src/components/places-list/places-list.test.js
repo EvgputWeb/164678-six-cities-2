@@ -6,7 +6,7 @@ import OFFERS from '../../mocks/offers';
 
 it(`PlacesList renders correctly`, () => {
   const placesList = renderer
-    .create(<PlacesList list={OFFERS} />)
+    .create(<PlacesList list={OFFERS} onActivateItem={jest.fn()} onDeactivateItem={jest.fn()} />)
     .toJSON();
 
   expect(placesList).toMatchSnapshot();

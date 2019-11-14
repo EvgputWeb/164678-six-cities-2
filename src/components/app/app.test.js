@@ -1,7 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
 import {App} from './app.js';
 import {initialState} from '../../reducer';
+
 
 it(`App renders correctly`, () => {
   const div = global.document.createElement(`div`);
@@ -9,7 +12,11 @@ it(`App renders correctly`, () => {
   global.document.body.appendChild(div);
 
   const app = renderer
-    .create(<App {...initialState} cityClickAction={jest.fn()} />)
+    .create(
+        <Provider store={createStore(jest.fn())}>
+          <App {...initialState} />
+        </Provider>
+    )
     .toJSON();
 
   expect(app).toMatchSnapshot();
