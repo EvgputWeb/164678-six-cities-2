@@ -5,6 +5,13 @@ import {ActionCreator} from '../../reducer';
 
 
 const CitiesList = ({list, activeItem, onActivateItem, cityClickAction}) => {
+
+  const cityClickHandler = (city) => (e) => {
+    e.preventDefault();
+    onActivateItem(city);
+    cityClickAction(city);
+  };
+
   return (
     <div className="tabs">
       <section className="locations container">
@@ -14,11 +21,7 @@ const CitiesList = ({list, activeItem, onActivateItem, cityClickAction}) => {
             <li key={city} className="locations__item">
               <a href="#"
                 className={`locations__item-link tabs__item` + ((city === activeItem) && (` tabs__item--active`)) }
-                onClick={(e)=>{
-                  e.preventDefault();
-                  onActivateItem(city);
-                  cityClickAction(city);
-                }}
+                onClick={cityClickHandler(city)}
               >
                 <span>{city}</span>
               </a>

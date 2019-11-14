@@ -10,7 +10,7 @@ import withActiveItem from '../../hocs/with-active-item';
 
 
 const CitiesListWrapped = withActiveItem(CitiesList);
-// const PlacesListWrapped = withActiveItem(PlacesList);
+const PlacesListWrapped = withActiveItem(PlacesList);
 
 
 const App = ({allOffers, city, cityOffers}) => {
@@ -38,7 +38,9 @@ const App = ({allOffers, city, cityOffers}) => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{`${cityOffers.length} places to stay in ${city}`}</b>
               <SortForm />
-              <PlacesList list={cityOffers} />
+              <PlacesListWrapped
+                list={cityOffers}
+              />
             </section>
 
             <div className="cities__right-section">
