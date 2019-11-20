@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import Header from '../header/header';
 import CitiesList from '../cities-list/cities-list';
 import MapComponent from '../map-component/map-component';
@@ -15,10 +16,13 @@ const PlacesListWrapped = withActiveItem(PlacesList);
 
 const App = ({allOffers, city, cityOffers}) => {
 
-  const page = 0;
-  const perPage = 5;
-  const citiesSet = new Set(allOffers.map((offer) => offer.city));
-  const citiesList = [...citiesSet].slice(page * perPage, (page + 1) * perPage);
+  if ((allOffers.length === 0) || (city === ``)) {
+    return null;
+  }
+
+  const CITIES_COUNT = 6;
+  const citiesSet = new Set(allOffers.map((offer) => offer.city.name));
+  const citiesList = [...citiesSet].slice(0, CITIES_COUNT);
 
   return (
     <div className="page page--gray page--main">
@@ -55,22 +59,10 @@ const App = ({allOffers, city, cityOffers}) => {
 };
 
 
-const offersArray = PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number.isRequired,
-      isPremium: PropTypes.bool.isRequired,
-      isBookmarked: PropTypes.bool.isRequired
-    })
-);
-
 App.propTypes = {
-  allOffers: offersArray,
+  allOffers: OFFERS_LIST_PROPTYPE,
   city: PropTypes.string.isRequired,
-  cityOffers: offersArray,
+  cityOffers: OFFERS_LIST_PROPTYPE,
 };
 
 

@@ -16,7 +16,7 @@ exports[`PlaceCard renders correctly 1`] = `
         alt="Place image"
         className="place-card__image"
         height="200"
-        src="img/apartment-01.jpg"
+        src="https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/14.jpg"
         width="260"
       />
     </a>
@@ -34,12 +34,12 @@ exports[`PlaceCard renders correctly 1`] = `
           className="place-card__price-value"
         >
           €
-          100
+          249
         </b>
         <span
           className="place-card__price-text"
         >
-          / night
+           / night
         </span>
       </div>
       <button
@@ -71,7 +71,7 @@ exports[`PlaceCard renders correctly 1`] = `
         <span
           style={
             Object {
-              "width": "100%",
+              "width": "68%",
             }
           }
         />
@@ -89,13 +89,13 @@ exports[`PlaceCard renders correctly 1`] = `
         href="#"
         onClick={[MockFunction]}
       >
-        Just test name
+        Perfectly located Castro
       </a>
     </h2>
     <p
       className="place-card__type"
     >
-      Apartment
+      room
     </p>
   </div>
 </article>

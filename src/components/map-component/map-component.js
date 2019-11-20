@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import leaflet from 'leaflet';
 
 
@@ -9,30 +9,43 @@ class MapComponent extends React.PureComponent {
     super(props);
     this._map = null;
     this._layerGroup = null;
-    this._zoom = 12;
-    this._center = [52.38333, 4.9];
+    this._defaultCenter = [52.3, 4.9];
+    this._defaultZoom = 12;
     this._icon = leaflet.icon({
       iconUrl: `img/pin.svg`,
       iconSize: [27, 39]
     });
+  }
 
+  _getCenterLocationAndZoom() {
+    if (this.props.list.length) {
+      const cityLocation = this.props.list[0].city.location;
+      this._center = [cityLocation.latitude, cityLocation.longitude];
+      this._zoom = cityLocation.zoom;
+    } else {
+      this._center = this._defaultCenter;
+      this._zoom = this._defaultZoom;
+    }
   }
 
   _showMarkers(places) {
     const icon = this._icon;
     this._layerGroup.clearLayers();
-    for (let i = 0; i < places.length; i++) {
-      leaflet.marker(places[i].coords, {icon}).addTo(this._layerGroup);
-    }
+    places.forEach((place)=>{
+      leaflet.marker([place.location.latitude, place.location.longitude], {icon}).addTo(this._layerGroup);
+    });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.list !== this.props.list) {
+      this._getCenterLocationAndZoom();
+      this._map.setView(this._center, this._zoom);
       this._showMarkers(this.props.list);
     }
   }
 
   componentDidMount() {
+    this._getCenterLocationAndZoom();
     this._map = leaflet.map(`map`, {
       center: this._center,
       zoom: this._zoom,
@@ -60,18 +73,7 @@ class MapComponent extends React.PureComponent {
 
 
 MapComponent.propTypes = {
-  list: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        rating: PropTypes.number.isRequired,
-        isPremium: PropTypes.bool.isRequired,
-        coords: PropTypes.arrayOf(PropTypes.number).isRequired,
-        isBookmarked: PropTypes.bool.isRequired
-      })
-  ),
+  list: OFFERS_LIST_PROPTYPE
 };
 
 

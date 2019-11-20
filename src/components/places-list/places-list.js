@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import PlaceCard from '../place-card/place-card';
 
 
@@ -30,17 +31,7 @@ const PlacesList = ({list, onActivateItem, onDeactivateItem}) => {
 
 
 PlacesList.propTypes = {
-  list: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        rating: PropTypes.number.isRequired,
-        isPremium: PropTypes.bool.isRequired,
-        isBookmarked: PropTypes.bool.isRequired
-      })
-  ),
+  list: OFFERS_LIST_PROPTYPE,
   onActivateItem: PropTypes.func.isRequired,
   onDeactivateItem: PropTypes.func.isRequired,
 };

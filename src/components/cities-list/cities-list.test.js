@@ -5,7 +5,7 @@ import {initialState} from '../../reducer';
 
 
 it(`CitiesList renders correctly`, () => {
-  const citiesSet = new Set(initialState.allOffers.map((offer) => offer.city));
+  const citiesSet = new Set(initialState.allOffers.map((offer) => offer.city.name));
   const list = [...citiesSet].slice(0, 5);
 
   const citiesList = renderer
