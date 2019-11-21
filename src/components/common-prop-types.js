@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
-// import  from 'prop-types';
 import {shape, number, string, bool, func, arrayOf} from 'prop-types';
-
 
 const LOCATION_SHAPE_OBJECT = {
   latitude: number.isRequired,
@@ -38,7 +36,8 @@ const OFFER_SHAPE_OBJECT = {
 
 const OFFERS_LIST_PROPTYPE = arrayOf(shape(OFFER_SHAPE_OBJECT)).isRequired;
 
-const PLACECARD_SHAPE_OBJECT = Object.assign({}, OFFER_SHAPE_OBJECT,
+const PLACECARD_SHAPE_OBJECT = Object.assign({},
+    OFFER_SHAPE_OBJECT,
     {
       onMouseEnter: func.isRequired,
       onMouseLeave: func.isRequired,

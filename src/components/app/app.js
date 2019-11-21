@@ -8,6 +8,7 @@ import MapComponent from '../map-component/map-component';
 import SortForm from '../sort-form/sort-form';
 import PlacesList from '../places-list/places-list';
 import withActiveItem from '../../hocs/with-active-item';
+import {getCityOffers} from '../../store/selectors';
 
 
 const CitiesListWrapped = withActiveItem(CitiesList);
@@ -70,7 +71,7 @@ App.propTypes = {
 const mapStateToProps = (store) => ({
   allOffers: store.allOffers,
   city: store.city,
-  cityOffers: store.cityOffers
+  cityOffers: getCityOffers(store)
 });
 
 

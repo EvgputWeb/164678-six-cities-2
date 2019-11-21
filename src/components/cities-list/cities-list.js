@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../reducer';
+import ActionCreator from '../../store/action-creator';
 
 
 const CitiesList = ({list, activeItem, onActivateItem, cityClickAction}) => {
@@ -47,7 +47,6 @@ CitiesList.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   cityClickAction: (city) => {
     dispatch(ActionCreator.changeCity(city));
-    dispatch(ActionCreator.getCityOffers(city));
   },
 });
 

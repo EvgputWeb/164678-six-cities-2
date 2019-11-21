@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware} from 'redux';
-import {reducer, Operation} from './reducer';
+import {reducer} from './store/reducer';
+import Operation from './store/operation';
 import {Provider} from 'react-redux';
 import App from './components/app/app';
 import configureAPI from './api';
