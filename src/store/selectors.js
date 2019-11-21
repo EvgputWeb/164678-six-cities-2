@@ -8,4 +8,14 @@ const getCityOffers = createSelector(
     (allOffers, cityName) => allOffers.filter((item) => item.city.name === cityName)
 );
 
-export {getCityOffers};
+const getSixCities = createSelector(
+    getAllOffers,
+    (allOffers) => {
+      const CITIES_COUNT = 6;
+      const citiesSet = new Set(allOffers.map((offer) => offer.city.name));
+      return [...citiesSet].slice(0, CITIES_COUNT);
+    }
+);
+
+
+export {getCityOffers, getSixCities};

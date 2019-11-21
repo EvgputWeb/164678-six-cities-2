@@ -8,22 +8,18 @@ import MapComponent from '../map-component/map-component';
 import SortForm from '../sort-form/sort-form';
 import PlacesList from '../places-list/places-list';
 import withActiveItem from '../../hocs/with-active-item';
-import {getCityOffers} from '../../store/selectors';
+import {getSixCities, getCityOffers} from '../../store/selectors';
 
 
 const CitiesListWrapped = withActiveItem(CitiesList);
 const PlacesListWrapped = withActiveItem(PlacesList);
 
 
-const App = ({allOffers, city, cityOffers}) => {
+const App = ({citiesList, city, cityOffers}) => {
 
-  if ((allOffers.length === 0) || (city === ``)) {
+  if ((citiesList.length === 0) || (city === ``)) {
     return null;
   }
-
-  const CITIES_COUNT = 6;
-  const citiesSet = new Set(allOffers.map((offer) => offer.city.name));
-  const citiesList = [...citiesSet].slice(0, CITIES_COUNT);
 
   return (
     <div className="page page--gray page--main">
@@ -61,15 +57,14 @@ const App = ({allOffers, city, cityOffers}) => {
 
 
 App.propTypes = {
-  allOffers: OFFERS_LIST_PROPTYPE,
+  citiesList: PropTypes.arrayOf(PropTypes.string).isRequired,
   city: PropTypes.string.isRequired,
   cityOffers: OFFERS_LIST_PROPTYPE,
 };
 
 
-// приклеиваем данные из store в наш компонент App
 const mapStateToProps = (store) => ({
-  allOffers: store.allOffers,
+  citiesList: getSixCities(store),
   city: store.city,
   cityOffers: getCityOffers(store)
 });
