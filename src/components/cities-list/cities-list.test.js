@@ -1,18 +1,17 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {CitiesList} from './cities-list';
-import {initialState} from '../../reducer';
 
 
 it(`CitiesList renders correctly`, () => {
-  const citiesSet = new Set(initialState.allOffers.map((offer) => offer.city));
-  const list = [...citiesSet].slice(0, 5);
+  const list = [`Paris`, `Amsterdam`, `Hamburg`];
+  const activeCity = `Paris`;
 
   const citiesList = renderer
     .create(
         <CitiesList
           list={list}
-          activeItem={initialState.city}
+          activeItem={activeCity}
           onActivateItem={jest.fn()}
           cityClickAction={jest.fn()}
         />

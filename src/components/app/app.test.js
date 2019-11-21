@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import {App} from './app.js';
-import {initialState} from '../../reducer';
+import MOCK_OFFER from '../../mocks/mock-offer';
 
 
 it(`App renders correctly`, () => {
@@ -11,10 +11,18 @@ it(`App renders correctly`, () => {
   div.id = `map`;
   global.document.body.appendChild(div);
 
+  const list = [MOCK_OFFER.city.name, `Paris`, `Amsterdam`, `Hamburg`];
+  const activeCity = MOCK_OFFER.city.name;
+  const cityOffers = [MOCK_OFFER];
+
   const app = renderer
     .create(
         <Provider store={createStore(jest.fn())}>
-          <App {...initialState} />
+          <App
+            citiesList = {list}
+            city = {activeCity}
+            cityOffers = {cityOffers}
+          />
         </Provider>
     )
     .toJSON();
