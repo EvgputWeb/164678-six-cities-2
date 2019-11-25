@@ -1,10 +1,10 @@
 import {city as cityReducer} from './change-city';
 import ActionTypes from '../action-types';
 
-const initialState = ``;
+const INITIAL_STATE = ``;
 
 it(`cityReducer should return initial state with empty parameters`, () => {
-  expect(cityReducer(undefined, {})).toEqual(initialState);
+  expect(cityReducer(undefined, {})).toEqual(INITIAL_STATE);
 });
 
 it(`cityReducer should change city correctly`, () => {
@@ -21,11 +21,11 @@ it(`cityReducer should change city correctly`, () => {
 
 it(`cityReducer should not fail with incorrect parameters`, () => {
   expect(cityReducer(
-      initialState,
+      INITIAL_STATE,
       {
         type: `Bla-bla-bla`,
         payload: `Tesla Roadster`
       }
-  )).toEqual(initialState);
+  )).toEqual(INITIAL_STATE);
 });
 

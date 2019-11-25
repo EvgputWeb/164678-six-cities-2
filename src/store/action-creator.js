@@ -13,6 +13,19 @@ const ActionCreator = {
       payload: city
     };
   },
+  needAuth: (status) => {
+    return {
+      type: ActionTypes.NEED_AUTH,
+      payload: status
+    };
+  },
+  saveUserData: (data) => {
+    return {
+      type: ActionTypes.SAVE_USER_DATA,
+      payload: data
+    };
+  },
+
 };
 
 export default ActionCreator;

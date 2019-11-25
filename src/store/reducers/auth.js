@@ -1,12 +1,12 @@
 import ActionTypes from '../action-types';
 
-const INITIAL_STATE = ``;
+const INITIAL_STATE = true;
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ActionTypes.CHANGE_CITY: return action.payload;
+    case ActionTypes.NEED_AUTH: return action.payload;
   }
   return state;
 };
 
-export {reducer as city};
+export {reducer as isAuthorizationRequired};

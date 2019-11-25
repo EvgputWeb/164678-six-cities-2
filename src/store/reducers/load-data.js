@@ -1,8 +1,8 @@
 import ActionTypes from '../action-types';
 
-const initialState = [];
+const INITIAL_STATE = [];
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ActionTypes.LOAD_ALL_OFFERS: return action.payload;
   }
