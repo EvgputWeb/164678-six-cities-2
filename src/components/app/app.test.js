@@ -19,6 +19,8 @@ it(`App renders correctly`, () => {
     .create(
         <Provider store={createStore(jest.fn())}>
           <App
+            isAuthorizationRequired = {false}
+            userData = {{}}
             citiesList = {list}
             city = {activeCity}
             cityOffers = {cityOffers}

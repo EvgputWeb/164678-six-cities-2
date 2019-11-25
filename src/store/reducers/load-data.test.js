@@ -2,10 +2,10 @@ import MOCK_OFFER from '../../mocks/mock-offer';
 import {allOffers as loadDataReducer} from './load-data';
 import ActionTypes from '../action-types';
 
-const initialState = [];
+const INITIAL_STATE = [];
 
 it(`loadDataReducer should return initial state with empty parameters`, () => {
-  expect(loadDataReducer(undefined, {})).toEqual(initialState);
+  expect(loadDataReducer(undefined, {})).toEqual(INITIAL_STATE);
 });
 
 it(`loadDataReducer should load offers correctly`, () => {
@@ -20,10 +20,10 @@ it(`loadDataReducer should load offers correctly`, () => {
 
 it(`loadDataReducer should not fail with incorrect parameters`, () => {
   expect(loadDataReducer(
-      initialState,
+      INITIAL_STATE,
       {
         type: `Bla-bla-bla`,
         payload: `Tesla Roadster`
       }
-  )).toEqual(initialState);
+  )).toEqual(INITIAL_STATE);
 });

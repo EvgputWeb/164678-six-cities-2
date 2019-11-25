@@ -6,7 +6,7 @@ import ActionCreator from '../../store/action-creator';
 
 const CitiesList = ({list, activeItem, onActivateItem, cityClickAction}) => {
 
-  const cityClickHandler = (city) => (e) => {
+  const handleCityClick = (city) => (e) => {
     e.preventDefault();
     onActivateItem(city);
     cityClickAction(city);
@@ -21,7 +21,7 @@ const CitiesList = ({list, activeItem, onActivateItem, cityClickAction}) => {
             <li key={city} className="locations__item">
               <a href="#"
                 className={`locations__item-link tabs__item` + ((city === activeItem) && (` tabs__item--active`)) }
-                onClick={cityClickHandler(city)}
+                onClick={handleCityClick(city)}
               >
                 <span>{city}</span>
               </a>
@@ -43,7 +43,6 @@ CitiesList.propTypes = {
 };
 
 
-// привязываем Actions
 const mapDispatchToProps = (dispatch) => ({
   cityClickAction: (city) => {
     dispatch(ActionCreator.changeCity(city));

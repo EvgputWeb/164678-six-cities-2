@@ -5,7 +5,7 @@ import Header from './header';
 
 it(`Header renders correctly`, () => {
   const header = renderer
-    .create(<Header />)
+    .create(<Header userData={{}} />)
     .toJSON();
 
   expect(header).toMatchSnapshot();

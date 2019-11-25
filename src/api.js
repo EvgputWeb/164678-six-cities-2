@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ActionCreator from './store/action-creator';
 
 const createAPI = (dispatch) => {
 
@@ -11,10 +12,15 @@ const createAPI = (dispatch) => {
   const onSuccess = (response) => response;
 
   const onFail = (err) => {
-    if (err.response.status === 403) {
-      dispatch(/* */);
+    switch (err.response.status) {
+      case 400:
+      case 401: {
+        dispatch(ActionCreator.needAuth(true));
+        dispatch(ActionCreator.saveUserData({}));
+        break;
+      }
     }
-    return err;
+    return Promise.reject(err);
   };
 
   api.interceptors.response.use(onSuccess, onFail);
