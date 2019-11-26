@@ -9,14 +9,14 @@ const Operation = {
         dispatch(ActionCreator.changeCity(initialCity));
       });
   },
-  authRequest: (email, password) => (dispatch, __, api) => {
+  authRequest: (email, password, history) => (dispatch, __, api) => {
     return api.post(`/login`, {email, password})
       .then((response) => {
         dispatch(ActionCreator.needAuth(false));
         dispatch(ActionCreator.saveUserData(response.data));
+        history.push(`/`);
       });
-  },
-
+  }
 };
 
 export default Operation;

@@ -25,6 +25,12 @@ const ActionCreator = {
       payload: data
     };
   },
+  switchFavStatus: (offerId) => {
+    return {
+      type: ActionTypes.SWITCH_FAV_STATUS,
+      payload: offerId
+    };
+  },
 
 };
 
