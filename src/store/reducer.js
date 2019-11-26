@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {allOffers} from './reducers/load-data';
+import {allOffers} from './reducers/offers';
 import {city} from './reducers/change-city';
 import {isAuthorizationRequired} from './reducers/auth';
 import {userData} from './reducers/user-data';
