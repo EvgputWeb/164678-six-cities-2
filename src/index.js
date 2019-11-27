@@ -9,12 +9,10 @@ import createAPI from './api';
 import thunk from 'redux-thunk';
 import {compose} from 'recompose';
 import {Router} from 'react-router';
-import {createBrowserHistory} from 'history';
+import history from './history';
 
 
-const history = createBrowserHistory();
-
-const api = createAPI((...args) => store.dispatch(...args), history);
+const api = createAPI((...args) => store.dispatch(...args));
 
 const store = createStore(
     reducer,

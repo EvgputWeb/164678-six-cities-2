@@ -1,7 +1,8 @@
 import axios from 'axios';
 import ActionCreator from './store/action-creator';
+import history from './history';
 
-const createAPI = (dispatch, history) => {
+const createAPI = (dispatch) => {
 
   const api = axios.create({
     baseURL: `https://htmlacademy-react-2.appspot.com/six-cities`,
@@ -17,6 +18,7 @@ const createAPI = (dispatch, history) => {
       case 401: {
         dispatch(ActionCreator.needAuth(true));
         dispatch(ActionCreator.saveUserData({}));
+        dispatch(ActionCreator.clearFavorites());
         history.push(`/login`);
         break;
       }

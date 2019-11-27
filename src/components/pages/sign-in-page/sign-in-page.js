@@ -5,19 +5,19 @@ import Header from '../../header/header';
 import Operation from '../../../store/operation';
 
 
-const SignInPage = ({submitAction, history}) => {
+const SignInPage = ({submitAction}) => {
 
   let emailInput;
   let passwordInput;
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    submitAction(emailInput.value, passwordInput.value, history);
+    submitAction(emailInput.value, passwordInput.value);
   };
 
   return (
     <div className="page page--gray page--login">
-      <Header userData={{}} />
+      <Header />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -58,14 +58,13 @@ const SignInPage = ({submitAction, history}) => {
 
 SignInPage.propTypes = {
   submitAction: PropTypes.func.isRequired,
-  history: PropTypes.object
 };
 
 
 const mapDispatchToProps = (dispatch) => ({
-  submitAction: (email, password, history) => {
-    dispatch(Operation.authRequest(email, password, history));
-  },
+  submitAction: (email, password) => {
+    dispatch(Operation.authRequest(email, password));
+  }
 });
 
 export {SignInPage};

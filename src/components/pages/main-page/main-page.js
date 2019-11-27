@@ -9,21 +9,26 @@ import SortForm from '../../sort-form/sort-form';
 import PlacesList from '../../places-list/places-list';
 import withActiveItem from '../../../hocs/with-active-item';
 import {getSixCities, getCityOffers} from '../../../store/selectors';
+import Operation from '../../../store/operation';
 
 
 const CitiesListWrapped = withActiveItem(CitiesList);
 const PlacesListWrapped = withActiveItem(PlacesList);
 
 
-const MainPage = ({userData, citiesList, city, cityOffers}) => {
+const MainPage = ({userData, citiesList, city, cityOffers, getFavorites}) => {
 
   if ((citiesList.length === 0) || (city === ``)) {
     return null;
   }
 
+  if (userData.id) {
+    getFavorites();
+  }
+
   return (
     <div className="page page--gray page--main">
-      <Header userData={userData} />
+      <Header />
       <main className="page__main page__main--index">
 
         <h1 className="visually-hidden">Cities</h1>
@@ -62,6 +67,7 @@ MainPage.propTypes = {
   citiesList: PropTypes.arrayOf(PropTypes.string).isRequired,
   city: PropTypes.string.isRequired,
   cityOffers: OFFERS_LIST_PROPTYPE,
+  getFavorites: PropTypes.func.isRequired
 };
 
 
@@ -72,6 +78,12 @@ const mapStateToProps = (store) => ({
   cityOffers: getCityOffers(store)
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  getFavorites: () => {
+    dispatch(Operation.loadFavorites());
+  },
+});
+
 
 export {MainPage};
-export default connect(mapStateToProps)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

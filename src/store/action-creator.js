@@ -7,6 +7,30 @@ const ActionCreator = {
       payload: offers
     };
   },
+  loadFavorites: (offers) => {
+    return {
+      type: ActionTypes.LOAD_FAVORITES,
+      payload: offers
+    };
+  },
+  clearFavorites: () => {
+    return {
+      type: ActionTypes.CLEAR_FAVORITES,
+      payload: []
+    };
+  },
+  addToFavorites: (offer) => {
+    return {
+      type: ActionTypes.ADD_TO_FAVORITES,
+      payload: offer
+    };
+  },
+  removeFromFavorites: (id) => {
+    return {
+      type: ActionTypes.REMOVE_FROM_FAVORITES,
+      payload: id
+    };
+  },
   changeCity: (city) => {
     return {
       type: ActionTypes.CHANGE_CITY,
@@ -23,12 +47,6 @@ const ActionCreator = {
     return {
       type: ActionTypes.SAVE_USER_DATA,
       payload: data
-    };
-  },
-  switchFavStatus: (offerId) => {
-    return {
-      type: ActionTypes.SWITCH_FAV_STATUS,
-      payload: offerId
     };
   },
 

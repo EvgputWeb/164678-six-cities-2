@@ -1,20 +1,34 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {PLACECARD_SHAPE_OBJECT} from '../common-prop-types';
-import ActionCreator from '../../store/action-creator';
+import Operation from '../../store/operation';
 
 
 const PlaceCard = (props) => {
 
   const {id, title, type, price, rating} = props;
-  const {preview_image: previewImage, is_premium: isPremium, is_favorite: isFavorite} = props;
+  const {preview_image: previewImage, is_premium: isPremium} = props;
+  const {favorites, addToFavorites, removeFromFavorites} = props;
+
+  const isFavorite = () => {
+    for (let i = 0; i < favorites.length; i++) {
+      if (favorites[i].id === id) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const mouseEnterHandler = () => {
     props.onMouseEnter(props);
   };
 
   const buttonFavClickHandler = () => {
-    props.onSwitchFavoriteStatus(id);
+    if (isFavorite()) {
+      removeFromFavorites(id);
+    } else {
+      addToFavorites(id);
+    }
   };
 
   return (
@@ -37,7 +51,7 @@ const PlaceCard = (props) => {
             <span className="place-card__price-text">&nbsp;&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ` + ((isFavorite) ? (`place-card__bookmark-button--active`) : (``)) + ` button`}
+            className={`place-card__bookmark-button ` + ((isFavorite()) ? (`place-card__bookmark-button--active`) : (``)) + ` button`}
             type="button"
             onClick={buttonFavClickHandler}
           >
@@ -69,13 +83,20 @@ const PlaceCard = (props) => {
 PlaceCard.propTypes = PLACECARD_SHAPE_OBJECT;
 
 
+const mapStateToProps = (store) => ({
+  favorites: store.favorites
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  onSwitchFavoriteStatus: (id) => {
-    dispatch(ActionCreator.switchFavStatus(id));
+  addToFavorites: (id) => {
+    dispatch(Operation.addToFavorites(id));
+  },
+  removeFromFavorites: (id) => {
+    dispatch(Operation.removeFromFavorites(id));
   },
 });
 
 
 export {PlaceCard};
-export default connect(null, mapDispatchToProps)(PlaceCard);
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceCard);
 
