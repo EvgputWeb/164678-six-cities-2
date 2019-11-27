@@ -41,6 +41,7 @@ const OFFERS_LIST_PROPTYPE = arrayOf(shape(OFFER_SHAPE_OBJECT)).isRequired;
 const PLACECARD_SHAPE_OBJECT = Object.assign({},
     OFFER_SHAPE_OBJECT,
     {
+      viewStyle: string.isRequired,
       onMouseEnter: func.isRequired,
       onMouseLeave: func.isRequired,
       onTitleClick: func.isRequired,

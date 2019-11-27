@@ -6,59 +6,62 @@ import Operation from '../../store/operation';
 
 const PlaceCard = (props) => {
 
-  const {id, title, type, price, rating} = props;
+  const {id, title, type, price, rating, viewStyle} = props;
   const {preview_image: previewImage, is_premium: isPremium} = props;
   const {favorites, addToFavorites, removeFromFavorites} = props;
 
-  const isFavorite = () => {
-    for (let i = 0; i < favorites.length; i++) {
-      if (favorites[i].id === id) {
-        return true;
-      }
-    }
-    return false;
-  };
+  const isFavorite = (favorites.filter((favOffer) => favOffer.id === id)).length > 0;
 
-  const mouseEnterHandler = () => {
-    props.onMouseEnter(props);
-  };
+  const mouseEnterHandler = () => props.onMouseEnter(props);
 
-  const buttonFavClickHandler = () => {
-    if (isFavorite()) {
-      removeFromFavorites(id);
-    } else {
-      addToFavorites(id);
-    }
+  const buttonFavClickHandler = () => (isFavorite) ? (removeFromFavorites(id)) : (addToFavorites(id));
+
+  const articleClassName = (viewStyle === `stripe`) ? (`favorites__card`) : (`cities__place-card`);
+  const imageWrapperClassName = (viewStyle === `stripe`) ? (`favorites__image-wrapper`) : (`cities__image-wrapper`);
+  const cardInfoClassName = (viewStyle === `stripe`) ? (`favorites__card-info`) : (``);
+
+  const imageSize = {
+    width: 260,
+    height: 200
   };
+  if (viewStyle === `stripe`) {
+    imageSize.width = 150;
+    imageSize.height = 110;
+  }
+
 
   return (
-    <article className="cities__place-card place-card" onMouseEnter={mouseEnterHandler} onMouseLeave={props.onMouseLeave} >
+    <article
+      className={`${articleClassName} place-card`}
+      onMouseEnter={mouseEnterHandler}
+      onMouseLeave={props.onMouseLeave}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${imageWrapperClassName} place-card__image-wrapper`}>
         <a href="#">
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={previewImage} width={imageSize.width} height={imageSize.height} alt="Place image"/>
         </a>
       </div>
 
-      <div className="place-card__info">
+      <div className={`${cardInfoClassName} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&nbsp;&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ` + ((isFavorite()) ? (`place-card__bookmark-button--active`) : (``)) + ` button`}
+            className={`place-card__bookmark-button ` + ((isFavorite) ? (`place-card__bookmark-button--active`) : (``)) + ` button`}
             type="button"
             onClick={buttonFavClickHandler}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">{((isFavorite) ? (`In`) : (`To`)) + ` bookmarks`}</span>
           </button>
         </div>
 

@@ -19,6 +19,7 @@ const PlacesList = ({list, onActivateItem, onDeactivateItem}) => {
       {list.map((place) => (
         <PlaceCard
           key={place.id}
+          viewStyle={`card`}
           {...place}
           onTitleClick={() => {}}
           onMouseEnter={mouseEnterHandler(place)}
