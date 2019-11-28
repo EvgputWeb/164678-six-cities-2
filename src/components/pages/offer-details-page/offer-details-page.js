@@ -1,0 +1,180 @@
+import React from 'react';
+import {OFFERS_LIST_PROPTYPE} from '../../common-prop-types';
+import {connect} from 'react-redux';
+// import {Link} from 'react-router-dom';
+import Header from '../../header/header';
+import RatingStars from '../../rating-stars/rating-stars';
+import PlaceCard from '../../place-card/place-card';
+import FavButton from '../../fav-button/fav-button';
+
+
+const renderNearPlace = (offer) => {
+  return (
+    <PlaceCard
+      key={offer.id}
+      viewStyle={`card`}
+      {...offer}
+      onTitleClick={() => {}}
+      onMouseEnter={() => {}}
+      onMouseLeave={() => {}}
+    />
+  );
+};
+
+const renderGallery = (offer) => {
+  const MAX_IMAGES_COUNT = 6;
+  return (
+    <div className="property__gallery-container container">
+      <div className="property__gallery">
+        {offer.images.map((image, index) =>
+          (index < MAX_IMAGES_COUNT) && (
+            <div className="property__image-wrapper" key={index}>
+              <img className="property__image" src={image} alt="Photo"/>
+            </div>
+          ))}
+      </div>
+    </div>
+  );
+};
+
+const renderHost = (offer) => {
+  return (
+    <div className="property__host">
+      <h2 className="property__host-title">Meet the host</h2>
+      <div className="property__host-user user">
+        <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
+          <img className="property__avatar user__avatar" src={offer.host.avatar_url} width="74" height="74" alt="Host avatar"/>
+        </div>
+        <span className="property__user-name">{offer.host.name}</span>
+        { (offer.host.is_pro) && (<span className="property__user-status">Pro</span>) }
+      </div>
+      <div className="property__description">
+        <p className="property__text">{offer.description}</p>
+      </div>
+    </div>
+  );
+};
+
+
+const OfferDetailsPage = ({allOffers, favorites}) => {
+
+  const id = 14;
+
+  const filteredOffers = allOffers.filter((offer) => offer.id === id);
+  if (filteredOffers.length === 0) {
+    return null;
+  }
+
+  const nearOffer1 = (allOffers.filter((offer) => offer.id === 10))[0];
+  const nearOffer2 = (allOffers.filter((offer) => offer.id === 11))[0];
+  const nearOffer3 = (allOffers.filter((offer) => offer.id === 12))[0];
+
+  const offer = filteredOffers[0];
+
+  const isFavorite = (favorites.filter((favOffer) => favOffer.id === id)).length > 0;
+
+  return (
+    <div className="page">
+      <Header />
+      <main className="page__main page__main--property">
+        <section className="property">
+          {renderGallery(offer)}
+          <div className="property__container container">
+            <div className="property__wrapper">
+              { (offer.is_premium) && (<div className="property__mark"><span>Premium</span></div>) }
+              <div className="property__name-wrapper">
+                <h1 className="property__name">{offer.title}</h1>
+                <FavButton
+                  id={id}
+                  classPrefix={`property`}
+                  isFavorite={isFavorite}
+                  width={31}
+                  height={33}
+                />
+              </div>
+              <RatingStars
+                classPrefix={`property`}
+                rating={offer.rating}
+                isValueVisible={true}
+              />
+              <ul className="property__features">
+                <li className="property__feature property__feature--entire">Entire place</li>
+                <li className="property__feature property__feature--bedrooms">{`${offer.bedrooms} Bedrooms`}</li>
+                <li className="property__feature property__feature--adults">{`Max ${offer.max_adults} adults`}</li>
+              </ul>
+              <div className="property__price">
+                <b className="property__price-value">&euro;{offer.price}</b>
+                <span className="property__price-text">&nbsp;night</span>
+              </div>
+              <div className="property__inside">
+                <h2 className="property__inside-title">What&apos;s inside</h2>
+                <ul className="property__inside-list">
+                  {offer.goods.map((thing, index) => (<li className="property__inside-item" key={index}>{thing}</li>))}
+                </ul>
+              </div>
+              {renderHost(offer)}
+
+              <section className="property__reviews reviews">
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+
+                <ul className="reviews__list">
+                  <li className="reviews__item">
+                    <div className="reviews__user user">
+                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
+                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar"/>
+                      </div>
+                      <span className="reviews__user-name">
+                        Max
+                      </span>
+                    </div>
+                    <div className="reviews__info">
+                      <div className="reviews__rating rating">
+                        <div className="reviews__stars rating__stars">
+                          <span style={{width: `90%`}}></span>
+                          <span className="visually-hidden">Rating</span>
+                        </div>
+                      </div>
+                      <p className="reviews__text">
+                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
+                      </p>
+                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
+                    </div>
+                  </li>
+                </ul>
+
+
+              </section>
+            </div>
+          </div>
+          <section className="property__map map"></section>
+        </section>
+        <div className="container">
+          <section className="near-places places">
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            <div className="near-places__list places__list">
+              {renderNearPlace(nearOffer1)}
+              {renderNearPlace(nearOffer2)}
+              {renderNearPlace(nearOffer3)}
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+
+OfferDetailsPage.propTypes = {
+  allOffers: OFFERS_LIST_PROPTYPE,
+  favorites: OFFERS_LIST_PROPTYPE,
+};
+
+
+const mapStateToProps = (store) => ({
+  allOffers: store.allOffers,
+  favorites: store.favorites,
+});
+
+
+export {OfferDetailsPage};
+export default connect(mapStateToProps, null)(OfferDetailsPage);

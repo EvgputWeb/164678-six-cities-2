@@ -3,6 +3,7 @@ import {Route, Switch} from 'react-router-dom';
 import MainPage from '../pages/main-page/main-page';
 import SignInPage from '../pages/sign-in-page/sign-in-page';
 import FavoritesPage from '../pages/favorites-page/favorites-page';
+import OfferDetailsPage from '../pages/offer-details-page/offer-details-page';
 
 
 const App = () => {
@@ -11,6 +12,9 @@ const App = () => {
       <Route exact path='/' component={MainPage} />
       <Route exact path='/login' component={SignInPage} />
       <Route exact path='/favorites' component={FavoritesPage} />
+
+      <Route exact path='/offer' component={OfferDetailsPage} />
+
     </Switch>
   );
 };
