@@ -49,6 +49,12 @@ const ActionCreator = {
       payload: data
     };
   },
+  loadReviews: (reviews) => {
+    return {
+      type: ActionTypes.LOAD_REVIEWS,
+      payload: reviews
+    };
+  },
 
 };
 

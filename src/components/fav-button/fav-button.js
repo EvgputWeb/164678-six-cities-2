@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import {connect} from 'react-redux';
 import Operation from '../../store/operation';
 
 
-const FavButton = ({id, classPrefix, isFavorite, width, height, addToFavorites, removeFromFavorites}) => {
+const FavButton = ({id, classPrefix, width, height, favorites, addToFavorites, removeFromFavorites}) => {
 
-  const handleClick = () => {
-    return (isFavorite) ? (removeFromFavorites(id)) : (addToFavorites(id));
-  };
+  const isFavorite = (favorites.filter((favOffer) => favOffer.id === id)).length > 0;
+
+  const handleClick = () => (isFavorite) ? (removeFromFavorites(id)) : (addToFavorites(id));
 
   return (
     <button
@@ -28,13 +29,17 @@ const FavButton = ({id, classPrefix, isFavorite, width, height, addToFavorites, 
 FavButton.propTypes = {
   id: PropTypes.number.isRequired,
   classPrefix: PropTypes.string.isRequired,
-  isFavorite: PropTypes.bool.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  favorites: OFFERS_LIST_PROPTYPE,
   addToFavorites: PropTypes.func.isRequired,
   removeFromFavorites: PropTypes.func.isRequired,
 };
 
+
+const mapStateToProps = (store) => ({
+  favorites: store.favorites
+});
 
 const mapDispatchToProps = (dispatch) => ({
   addToFavorites: (id) => {
@@ -47,4 +52,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 
 export {FavButton};
-export default connect(null, mapDispatchToProps)(FavButton);
+export default connect(mapStateToProps, mapDispatchToProps)(FavButton);

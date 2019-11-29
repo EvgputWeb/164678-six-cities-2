@@ -1,11 +1,13 @@
 import React from 'react';
 import {OFFERS_LIST_PROPTYPE} from '../../common-prop-types';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // import {Link} from 'react-router-dom';
 import Header from '../../header/header';
 import RatingStars from '../../rating-stars/rating-stars';
 import PlaceCard from '../../place-card/place-card';
 import FavButton from '../../fav-button/fav-button';
+import ReviewsList from '../../reviews-list/reviews-list';
 
 
 const renderNearPlace = (offer) => {
@@ -56,9 +58,9 @@ const renderHost = (offer) => {
 };
 
 
-const OfferDetailsPage = ({allOffers, favorites}) => {
-
-  const id = 14;
+const OfferDetailsPage = (props) => {
+  const {allOffers} = props;
+  const id = +props.match.params.id;
 
   const filteredOffers = allOffers.filter((offer) => offer.id === id);
   if (filteredOffers.length === 0) {
@@ -70,8 +72,6 @@ const OfferDetailsPage = ({allOffers, favorites}) => {
   const nearOffer3 = (allOffers.filter((offer) => offer.id === 12))[0];
 
   const offer = filteredOffers[0];
-
-  const isFavorite = (favorites.filter((favOffer) => favOffer.id === id)).length > 0;
 
   return (
     <div className="page">
@@ -87,7 +87,6 @@ const OfferDetailsPage = ({allOffers, favorites}) => {
                 <FavButton
                   id={id}
                   classPrefix={`property`}
-                  isFavorite={isFavorite}
                   width={31}
                   height={33}
                 />
@@ -115,34 +114,7 @@ const OfferDetailsPage = ({allOffers, favorites}) => {
               {renderHost(offer)}
 
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar"/>
-                      </div>
-                      <span className="reviews__user-name">
-                        Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: `90%`}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
-
-
+                <ReviewsList hotelId={id}/>
               </section>
             </div>
           </div>
@@ -166,13 +138,12 @@ const OfferDetailsPage = ({allOffers, favorites}) => {
 
 OfferDetailsPage.propTypes = {
   allOffers: OFFERS_LIST_PROPTYPE,
-  favorites: OFFERS_LIST_PROPTYPE,
+  match: PropTypes.object.isRequired
 };
 
 
 const mapStateToProps = (store) => ({
   allOffers: store.allOffers,
-  favorites: store.favorites,
 });
 
 

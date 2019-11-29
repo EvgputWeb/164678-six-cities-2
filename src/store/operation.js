@@ -10,18 +10,15 @@ const Operation = {
         dispatch(ActionCreator.changeCity(initialCity));
       });
   },
-  loadFavorites: () => (dispatch, __, api) => {
-    return api.get(`/favorite`)
-      .then((response) => {
-        dispatch(ActionCreator.loadFavorites(response.data));
-      });
-  },
   authRequest: (email, password) => (dispatch, __, api) => {
     return api.post(`/login`, {email, password})
       .then((response) => {
         dispatch(ActionCreator.needAuth(false));
         dispatch(ActionCreator.saveUserData(response.data));
         history.push(`/`);
+        return api.get(`/favorite`);
+      }).then((response) => {
+        dispatch(ActionCreator.loadFavorites(response.data));
       });
   },
   addToFavorites: (id) => (dispatch, __, api) => {
@@ -40,6 +37,12 @@ const Operation = {
         if (!offer.is_favorite) {
           dispatch(ActionCreator.removeFromFavorites(offer.id));
         }
+      });
+  },
+  loadReviews: (hotelId) => (dispatch, __, api) => {
+    return api.get(`/comments/${hotelId}`)
+      .then((response) => {
+        dispatch(ActionCreator.loadReviews({hotelId, reviews: response.data}));
       });
   },
 

@@ -1,16 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import {PLACECARD_SHAPE_OBJECT} from '../common-prop-types';
 import RatingStars from '../rating-stars/rating-stars';
 import FavButton from '../fav-button/fav-button';
 
 
 const PlaceCard = (props) => {
-
   const {id, title, type, price, rating, viewStyle} = props;
   const {preview_image: previewImage, is_premium: isPremium} = props;
-  const {favorites} = props;
-  const isFavorite = (favorites.filter((favOffer) => favOffer.id === id)).length > 0;
 
   const articleClassName = (viewStyle === `stripe`) ? (`favorites__card`) : (`cities__place-card`);
   const imageWrapperClassName = (viewStyle === `stripe`) ? (`favorites__image-wrapper`) : (`cities__image-wrapper`);
@@ -25,7 +22,6 @@ const PlaceCard = (props) => {
     imageSize.height = 110;
   }
 
-
   return (
     <article
       className={`${articleClassName} place-card`}
@@ -34,9 +30,9 @@ const PlaceCard = (props) => {
     >
       { isPremium && (<div className="place-card__mark"><span>Premium</span></div>) }
       <div className={`${imageWrapperClassName} place-card__image-wrapper`}>
-        <a href="#">
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width={imageSize.width} height={imageSize.height} alt="Place image"/>
-        </a>
+        </Link>
       </div>
       <div className={`${cardInfoClassName} place-card__info`}>
         <div className="place-card__price-wrapper">
@@ -47,7 +43,6 @@ const PlaceCard = (props) => {
           <FavButton
             id={id}
             classPrefix={`place-card`}
-            isFavorite={isFavorite}
             width={18}
             height={19}
           />
@@ -57,25 +52,14 @@ const PlaceCard = (props) => {
           rating={rating}
         />
         <h2 className="place-card__name">
-          <a href="#" onClick={props.onTitleClick} >{title}</a>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
-
     </article>
   );
-
 };
-
 
 PlaceCard.propTypes = PLACECARD_SHAPE_OBJECT;
 
-
-const mapStateToProps = (store) => ({
-  favorites: store.favorites
-});
-
-
-export {PlaceCard};
-export default connect(mapStateToProps)(PlaceCard);
-
+export default PlaceCard;
