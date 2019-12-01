@@ -5,7 +5,7 @@ import Operation from '../../store/operation';
 import Review from '../../components/review/review';
 
 
-class ReviewsList extends React.Component {
+class ReviewsList extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

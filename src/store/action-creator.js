@@ -55,7 +55,12 @@ const ActionCreator = {
       payload: reviews
     };
   },
-
+  changeSortOrder: (sortOrder) => {
+    return {
+      type: ActionTypes.CHANGE_SORT_ORDER,
+      payload: sortOrder
+    };
+  }
 };
 
 export default ActionCreator;
