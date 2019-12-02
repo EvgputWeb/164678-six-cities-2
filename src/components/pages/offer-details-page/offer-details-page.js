@@ -3,11 +3,13 @@ import {OFFERS_LIST_PROPTYPE} from '../../common-prop-types';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // import {Link} from 'react-router-dom';
+import {getDistanceBetweenTwoPoints} from '../../../constants';
 import Header from '../../header/header';
 import RatingStars from '../../rating-stars/rating-stars';
 import PlaceCard from '../../place-card/place-card';
 import FavButton from '../../fav-button/fav-button';
 import ReviewsList from '../../reviews-list/reviews-list';
+import MapComponent from '../../map-component/map-component';
 
 
 const renderNearPlace = (offer) => {
@@ -58,6 +60,22 @@ const renderHost = (offer) => {
 };
 
 
+const findNearestOffers = (offer, allOffers, maxCount) => {
+  let cityOffers = allOffers.filter((offr) => offr.city.name === offer.city.name);
+  if (cityOffers.length === 0) {
+    return [offer];
+  }
+  if (cityOffers.length < maxCount) {
+    return cityOffers;
+  }
+  for (let i = 0; i < cityOffers.length; i++) {
+    cityOffers[i]._distance = getDistanceBetweenTwoPoints(offer.location, cityOffers[i].location);
+  }
+  cityOffers.sort((a, b) => (a._distance - b._distance));
+  return cityOffers.slice(0, 3);
+};
+
+
 const OfferDetailsPage = (props) => {
   const {allOffers} = props;
   const id = +props.match.params.id;
@@ -66,12 +84,8 @@ const OfferDetailsPage = (props) => {
   if (filteredOffers.length === 0) {
     return null;
   }
-
-  const nearOffer1 = (allOffers.filter((offer) => offer.id === 10))[0];
-  const nearOffer2 = (allOffers.filter((offer) => offer.id === 11))[0];
-  const nearOffer3 = (allOffers.filter((offer) => offer.id === 12))[0];
-
   const offer = filteredOffers[0];
+  const nearestOffers = findNearestOffers(offer, allOffers, 3);
 
   return (
     <div className="page">
@@ -112,21 +126,21 @@ const OfferDetailsPage = (props) => {
                 </ul>
               </div>
               {renderHost(offer)}
-
               <section className="property__reviews reviews">
                 <ReviewsList hotelId={id}/>
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <MapComponent
+            list={nearestOffers}
+            elemToRender={`section property__map map`}
+          />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {renderNearPlace(nearOffer1)}
-              {renderNearPlace(nearOffer2)}
-              {renderNearPlace(nearOffer3)}
+              { nearestOffers.map((nearOffer) => renderNearPlace(nearOffer)) }
             </div>
           </section>
         </div>
@@ -141,11 +155,9 @@ OfferDetailsPage.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-
 const mapStateToProps = (store) => ({
   allOffers: store.allOffers,
 });
 
-
 export {OfferDetailsPage};
-export default connect(mapStateToProps, null)(OfferDetailsPage);
+export default connect(mapStateToProps)(OfferDetailsPage);

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import leaflet from 'leaflet';
 
@@ -64,16 +65,19 @@ class MapComponent extends React.PureComponent {
   }
 
   render() {
-    return (
-      <div className="cities__map" id="map" />
-    );
+    const {elemToRender} = this.props;
+    const container = elemToRender.split(` `);
+    const containerClass = container.slice(1).join(` `);
+    return (container[0] === `div`) ?
+      (<div className={containerClass} id="map" />) :
+      (<section className={containerClass} id="map" />);
   }
-
 }
 
 
 MapComponent.propTypes = {
-  list: OFFERS_LIST_PROPTYPE
+  list: OFFERS_LIST_PROPTYPE,
+  elemToRender: PropTypes.string.isRequired
 };
 
 

@@ -45,7 +45,10 @@ const MainPage = ({citiesList, city, cityOffers}) => {
             </section>
 
             <div className="cities__right-section">
-              <MapComponent list={cityOffers} />
+              <MapComponent
+                list={cityOffers}
+                elemToRender={`div cities__map`}
+              />
             </div>
 
           </div>
