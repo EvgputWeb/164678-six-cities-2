@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import PlaceCard from '../place-card/place-card';
+import ActionCreator from '../../store/action-creator';
+import {connect} from 'react-redux';
 
 
 const PlacesList = ({list, onActivateItem, onDeactivateItem}) => {
@@ -10,9 +12,7 @@ const PlacesList = ({list, onActivateItem, onDeactivateItem}) => {
     onActivateItem(placeCard);
   };
 
-  const mouseLeaveHandler = () => {
-    onDeactivateItem();
-  };
+  const mouseLeaveHandler = () => onDeactivateItem();
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -37,5 +37,14 @@ PlacesList.propTypes = {
   onDeactivateItem: PropTypes.func.isRequired,
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  onActivateItem: (item) => {
+    dispatch(ActionCreator.changeActiveOffer(item));
+  },
+  onDeactivateItem: () => {
+    dispatch(ActionCreator.changeActiveOffer({}));
+  },
+});
 
-export default PlacesList;
+export {PlacesList};
+export default connect(null, mapDispatchToProps)(PlacesList);

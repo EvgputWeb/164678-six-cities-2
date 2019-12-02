@@ -60,7 +60,14 @@ const ActionCreator = {
       type: ActionTypes.CHANGE_SORT_ORDER,
       payload: sortOrder
     };
+  },
+  changeActiveOffer: (offer) => {
+    return {
+      type: ActionTypes.CHANGE_ACTIVE_OFFER,
+      payload: offer
+    };
   }
+
 };
 
 export default ActionCreator;

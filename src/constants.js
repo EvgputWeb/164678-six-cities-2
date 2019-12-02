@@ -22,3 +22,20 @@ export const getDistanceBetweenTwoPoints = (point1, point2) => {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c; // Distance in km
 };
+
+export const MapDefaults = {
+  CENTER_COORDS: [52.3, 4.9],
+  ZOOM: 12,
+  ICON: {
+    iconUrl: `img/pin.svg`,
+    iconSize: [27, 39]
+  },
+  ACTIVE_ICON: {
+    iconUrl: `img/pin-active.svg`,
+    iconSize: [27, 39]
+  },
+  TILE_LAYER: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
+  TILE_LAYER_ATTR: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`,
+
+
+};

@@ -6,6 +6,7 @@ import {isAuthorizationRequired} from './reducers/auth';
 import {userData} from './reducers/user-data';
 import {reviews} from './reducers/reviews';
 import {sortOrder} from './reducers/sort-order';
+import {activeOffer} from './reducers/active-offer';
 
 
 const reducer = combineReducers({
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   city,
   allOffers,
   sortOrder,
+  activeOffer,
   favorites,
   reviews
 });
