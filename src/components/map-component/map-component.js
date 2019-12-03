@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import leaflet from 'leaflet';
-import {MapDefaults} from '../../constants';
+import {MapDefaults, isObjectEmpty} from '../../constants';
 
 
 class MapComponent extends React.PureComponent {
@@ -16,6 +16,7 @@ class MapComponent extends React.PureComponent {
     this._defaultZoom = MapDefaults.ZOOM;
     this._icon = leaflet.icon(MapDefaults.ICON);
     this._activeIcon = leaflet.icon(MapDefaults.ACTIVE_ICON);
+    this._markers = [];
   }
 
   _getCenterLocationAndZoom() {
@@ -29,36 +30,59 @@ class MapComponent extends React.PureComponent {
     }
   }
 
-  _showMarkers(places) {
+  _createMarker(coords, id, isActive) {
     const icon = this._icon;
     const activeIcon = this._activeIcon;
-    const {activeOffer} = this.props;
-    const isActiveOfferEmpty = (!activeOffer) || (Object.entries(activeOffer).length === 0);
+    let marker = leaflet.marker([coords.latitude, coords.longitude], (isActive) ? ({icon: activeIcon}) : ({icon}));
+    marker._id = id;
+    this._map.addLayer(marker);
+    this._markers.push(marker);
+  }
 
-    const isFloatEqual = (a, b) => Math.abs(a - b) < 0.0000001;
-
-    this._layerGroup.clearLayers();
-
-    let locations = [...places];
-    if (!isActiveOfferEmpty) {
-      locations = places.filter((place) => {
-        return !(isFloatEqual(place.location.latitude, activeOffer.location.latitude) &&
-               isFloatEqual(place.location.longitude, activeOffer.location.longitude));
-      });
-    }
-    locations.forEach((place) => {
-      leaflet.marker([place.location.latitude, place.location.longitude], {icon}).addTo(this._layerGroup);
+  _removeMarker(id) {
+    let newMarkers = [];
+    this._markers.forEach((marker) => {
+      if (marker._id === id) {
+        this._map.removeLayer(marker);
+      } else {
+        newMarkers.push(marker);
+      }
     });
-    if (!isActiveOfferEmpty) {
-      leaflet.marker([activeOffer.location.latitude, activeOffer.location.longitude], {icon: activeIcon}).addTo(this._layerGroup);
+    this._markers = [...newMarkers];
+  }
+
+  _removeAllMarkers() {
+    this._markers.forEach((marker) => this._map.removeLayer(marker));
+    this._markers = [];
+  }
+
+  _showMarkers(places) {
+    this._removeAllMarkers();
+    const {activeOffer} = this.props;
+    if (isObjectEmpty(activeOffer)) {
+      places.forEach((place) => this._createMarker(place.location, place.id, false));
+    } else {
+      places.forEach((place) => this._createMarker(place.location, place.id, (place.id === activeOffer.id)));
     }
   }
 
+  _setOfferMarkerActivity(offer, activity) {
+    if (isObjectEmpty(offer)) {
+      return;
+    }
+    const id = offer.id;
+    this._removeMarker(id);
+    this._createMarker(offer.location, id, activity);
+  }
+
   componentDidUpdate(prevProps) {
-    if ((prevProps.list !== this.props.list) || (prevProps.activeOffer !== this.props.activeOffer)) {
+    if (prevProps.list !== this.props.list) {
       this._getCenterLocationAndZoom();
       this._map.setView(this._center, this._zoom);
       this._showMarkers(this.props.list);
+    } else if (prevProps.activeOffer !== this.props.activeOffer) {
+      this._setOfferMarkerActivity(prevProps.activeOffer, false);
+      this._setOfferMarkerActivity(this.props.activeOffer, true);
     }
   }
 
@@ -100,4 +124,3 @@ const mapStateToProps = (store) => ({
 
 export {MapComponent};
 export default connect(mapStateToProps)(MapComponent);
-

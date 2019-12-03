@@ -23,6 +23,9 @@ export const getDistanceBetweenTwoPoints = (point1, point2) => {
   return R * c; // Distance in km
 };
 
+export const MAX_NEAREST_OFFERS_COUNT = 3;
+export const MAX_GALLERY_IMAGES_COUNT = 6;
+
 export const MapDefaults = {
   CENTER_COORDS: [52.3, 4.9],
   ZOOM: 12,
@@ -36,6 +39,6 @@ export const MapDefaults = {
   },
   TILE_LAYER: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
   TILE_LAYER_ATTR: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`,
-
-
 };
+
+export const isObjectEmpty = (obj) => ((!obj) || (Object.entries(obj).length === 0));

@@ -2,8 +2,8 @@ import React from 'react';
 import {OFFERS_LIST_PROPTYPE} from '../../common-prop-types';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-// import {Link} from 'react-router-dom';
-import {getDistanceBetweenTwoPoints} from '../../../constants';
+import ActionCreator from '../../../store/action-creator';
+import {getDistanceBetweenTwoPoints, MAX_NEAREST_OFFERS_COUNT, MAX_GALLERY_IMAGES_COUNT} from '../../../constants';
 import Header from '../../header/header';
 import RatingStars from '../../rating-stars/rating-stars';
 import PlaceCard from '../../place-card/place-card';
@@ -26,12 +26,11 @@ const renderNearPlace = (offer) => {
 };
 
 const renderGallery = (offer) => {
-  const MAX_IMAGES_COUNT = 6;
   return (
     <div className="property__gallery-container container">
       <div className="property__gallery">
         {offer.images.map((image, index) =>
-          (index < MAX_IMAGES_COUNT) && (
+          (index < MAX_GALLERY_IMAGES_COUNT) && (
             <div className="property__image-wrapper" key={index}>
               <img className="property__image" src={image} alt="Photo"/>
             </div>
@@ -61,31 +60,40 @@ const renderHost = (offer) => {
 
 
 const findNearestOffers = (offer, allOffers, maxCount) => {
-  let cityOffers = allOffers.filter((offr) => offr.city.name === offer.city.name);
+  let cityOffers = allOffers.filter((item) => (item.city.name === offer.city.name) && (item.id !== offer.id));
   if (cityOffers.length === 0) {
-    return [offer];
+    return [];
   }
   if (cityOffers.length < maxCount) {
     return cityOffers;
   }
+  let distances = [];
   for (let i = 0; i < cityOffers.length; i++) {
-    cityOffers[i]._distance = getDistanceBetweenTwoPoints(offer.location, cityOffers[i].location);
+    distances.push({
+      index: i,
+      distance: getDistanceBetweenTwoPoints(offer.location, cityOffers[i].location)
+    });
   }
-  cityOffers.sort((a, b) => (a._distance - b._distance));
-  return cityOffers.slice(0, 3);
+  distances.sort((a, b) => (a.distance - b.distance));
+  let nearest = [];
+  [...distances.slice(0, maxCount)].forEach((item) => nearest.push(cityOffers[item.index]));
+  return nearest;
 };
 
 
 const OfferDetailsPage = (props) => {
-  const {allOffers} = props;
+  const {allOffers, onActivateItem, onDeactivateItem} = props;
   const id = +props.match.params.id;
 
   const filteredOffers = allOffers.filter((offer) => offer.id === id);
   if (filteredOffers.length === 0) {
+    onDeactivateItem();
     return null;
   }
   const offer = filteredOffers[0];
-  const nearestOffers = findNearestOffers(offer, allOffers, 3);
+  onActivateItem(offer);
+
+  const nearestOffers = findNearestOffers(offer, allOffers, MAX_NEAREST_OFFERS_COUNT);
 
   return (
     <div className="page">
@@ -132,7 +140,7 @@ const OfferDetailsPage = (props) => {
             </div>
           </div>
           <MapComponent
-            list={nearestOffers}
+            list={[offer, ...nearestOffers]}
             elemToRender={`section property__map map`}
           />
         </section>
@@ -152,12 +160,23 @@ const OfferDetailsPage = (props) => {
 
 OfferDetailsPage.propTypes = {
   allOffers: OFFERS_LIST_PROPTYPE,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  onActivateItem: PropTypes.func.isRequired,
+  onDeactivateItem: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (store) => ({
   allOffers: store.allOffers,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onActivateItem: (item) => {
+    dispatch(ActionCreator.changeActiveOffer(item));
+  },
+  onDeactivateItem: () => {
+    dispatch(ActionCreator.changeActiveOffer({}));
+  },
+});
+
 export {OfferDetailsPage};
-export default connect(mapStateToProps)(OfferDetailsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferDetailsPage);

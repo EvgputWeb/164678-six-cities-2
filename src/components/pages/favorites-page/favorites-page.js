@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Header from '../../header/header';
 import PlaceCard from '../../place-card/place-card';
+import {isObjectEmpty} from '../../../constants';
 
 
 const renderFooter = () => {
@@ -39,7 +40,7 @@ const renderEmptyPage = () => {
 
 const FavoritesPage = ({favorites}) => {
 
-  if (Object.entries(favorites).length === 0) {
+  if (isObjectEmpty(favorites)) {
     return renderEmptyPage();
   }
 

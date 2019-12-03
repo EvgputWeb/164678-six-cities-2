@@ -8,10 +8,9 @@ import {connect} from 'react-redux';
 
 const PlacesList = ({list, onActivateItem, onDeactivateItem}) => {
 
-  const mouseEnterHandler = (placeCard) => () => {
-    onActivateItem(placeCard);
-  };
+  onDeactivateItem();
 
+  const mouseEnterHandler = (placeCard) => () => onActivateItem(placeCard);
   const mouseLeaveHandler = () => onDeactivateItem();
 
   return (

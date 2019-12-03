@@ -16,7 +16,6 @@ const CitiesList = ({list, activeItem, onActivateItem, cityClickAction}) => {
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-
           {list.map((city) => (
             <li key={city} className="locations__item">
               <a href="#"
@@ -27,7 +26,6 @@ const CitiesList = ({list, activeItem, onActivateItem, cityClickAction}) => {
               </a>
             </li>
           ))}
-
         </ul>
       </section>
     </div>
@@ -42,13 +40,11 @@ CitiesList.propTypes = {
   cityClickAction: PropTypes.func.isRequired
 };
 
-
 const mapDispatchToProps = (dispatch) => ({
   cityClickAction: (city) => {
     dispatch(ActionCreator.changeCity(city));
   },
 });
-
 
 export {CitiesList};
 export default connect(null, mapDispatchToProps)(CitiesList);
