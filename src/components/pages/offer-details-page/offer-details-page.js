@@ -2,6 +2,7 @@ import React from 'react';
 import {OFFERS_LIST_PROPTYPE} from '../../common-prop-types';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import history from '../../../history';
 import ActionCreator from '../../../store/action-creator';
 import {getDistanceBetweenTwoPoints, MAX_NEAREST_OFFERS_COUNT, MAX_GALLERY_IMAGES_COUNT} from '../../../constants';
 import Header from '../../header/header';
@@ -10,6 +11,7 @@ import PlaceCard from '../../place-card/place-card';
 import FavButton from '../../fav-button/fav-button';
 import ReviewsList from '../../reviews-list/reviews-list';
 import MapComponent from '../../map-component/map-component';
+import ReviewForm from '../../review-form/review-form';
 
 
 const renderNearPlace = (offer) => {
@@ -82,8 +84,13 @@ const findNearestOffers = (offer, allOffers, maxCount) => {
 
 
 const OfferDetailsPage = (props) => {
-  const {allOffers, onActivateItem, onDeactivateItem} = props;
+  const {allOffers, isAuthorizationRequired, onActivateItem, onDeactivateItem} = props;
   const id = +props.match.params.id;
+
+  if (isAuthorizationRequired) {
+    history.push(`/login`);
+    return null;
+  }
 
   const filteredOffers = allOffers.filter((offer) => offer.id === id);
   if (filteredOffers.length === 0) {
@@ -135,7 +142,8 @@ const OfferDetailsPage = (props) => {
               </div>
               {renderHost(offer)}
               <section className="property__reviews reviews">
-                <ReviewsList hotelId={id}/>
+                <ReviewsList hotelId={id} />
+                {(!isAuthorizationRequired) && (<ReviewForm hotelId={id} />)}
               </section>
             </div>
           </div>
@@ -160,12 +168,14 @@ const OfferDetailsPage = (props) => {
 
 OfferDetailsPage.propTypes = {
   allOffers: OFFERS_LIST_PROPTYPE,
+  isAuthorizationRequired: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
   onActivateItem: PropTypes.func.isRequired,
   onDeactivateItem: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (store) => ({
+  isAuthorizationRequired: store.isAuthorizationRequired,
   allOffers: store.allOffers,
 });
 

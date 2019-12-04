@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import Header from '../../header/header';
 import Operation from '../../../store/operation';
 
 
-const SignInPage = ({submitAction}) => {
+const SignInPage = ({city, submitAction}) => {
 
   let emailInput;
   let passwordInput;
@@ -44,9 +45,9 @@ const SignInPage = ({submitAction}) => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link to={`/`} className="locations__item-link">
+                <span>{city}</span>
+              </Link>
             </div>
           </section>
         </div>
@@ -57,9 +58,13 @@ const SignInPage = ({submitAction}) => {
 
 
 SignInPage.propTypes = {
+  city: PropTypes.string.isRequired,
   submitAction: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (store) => ({
+  city: store.city,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   submitAction: (email, password) => {
@@ -68,5 +73,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {SignInPage};
-export default connect(null, mapDispatchToProps)(SignInPage);
-
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);

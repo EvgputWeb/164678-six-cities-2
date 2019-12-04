@@ -45,6 +45,12 @@ const Operation = {
         dispatch(ActionCreator.loadReviews({hotelId, reviews: response.data}));
       });
   },
+  postReview: (hotelId, rating, comment) => (dispatch, __, api) => {
+    return api.post(`/comments/${hotelId}`, {rating, comment})
+      .then((response) => {
+        dispatch(ActionCreator.loadReviews({hotelId, reviews: response.data}));
+      });
+  },
 
 
 };

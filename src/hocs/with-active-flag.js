@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const withActiveFlag = (Component) => {
 
   class WithActiveFlag extends React.PureComponent {
+
     constructor(props) {
       super(props);
       this.state = {
