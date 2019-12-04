@@ -14,7 +14,10 @@ const createAPI = (dispatch) => {
 
   const onFail = (err) => {
     switch (err.response.status) {
-      case 400:
+      case 400: {
+        history.push(`/`);
+        throw new Error(`400 Bad Request`);
+      }
       case 401: {
         dispatch(ActionCreator.needAuth(true));
         dispatch(ActionCreator.saveUserData({}));
