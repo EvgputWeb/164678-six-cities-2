@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {RATING_VALUES} from '../../constants';
 import withFormState from '../../hocs/with-form-state';
-import {isObjectEmpty} from '../../constants';
+import {isObjectEmpty, ReviewDefaults} from '../../constants';
 import Operation from '../../store/operation';
 
 
@@ -12,7 +11,7 @@ class ReviewForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this._ratingStarsRefs = [];
-    RATING_VALUES.forEach(() => this._ratingStarsRefs.push(React.createRef()));
+    ReviewDefaults.RATING_VALUES.forEach(() => this._ratingStarsRefs.push(React.createRef()));
     this._reviewRef = React.createRef();
     this._submitButtonRef = React.createRef();
     this._canHandleSubmit = true;
@@ -31,12 +30,12 @@ class ReviewForm extends React.PureComponent {
 
   _handleButtonDisableState() {
     const formState = this.props.formState;
-    if (isObjectEmpty(formState) || (!formState[`rating`]) || (!formState[`review`])) {
+    if (isObjectEmpty(formState) || (!formState[ReviewDefaults.RATING]) || (!formState[ReviewDefaults.REVIEW])) {
       return true;
     }
-    const rating = formState[`rating`];
-    const reviewLength = formState[`review`].length;
-    return (rating > 0 && reviewLength > 50 && reviewLength < 300) ? (false) : (true);
+    const rating = formState[ReviewDefaults.RATING];
+    const reviewLength = formState[ReviewDefaults.REVIEW].length;
+    return !(rating > 0 && reviewLength > ReviewDefaults.MIN_REVIEW_LENGTH && reviewLength < ReviewDefaults.MAX_REVIEW_LENGTH);
   }
 
   _handleSubmit(e) {
@@ -45,7 +44,7 @@ class ReviewForm extends React.PureComponent {
       return;
     }
     this._canHandleSubmit = false;
-    this.props.submitReview(this.props.hotelId, this.props.formState[`rating`], this.props.formState[`review`]);
+    this.props.submitReview(this.props.hotelId, this.props.formState[ReviewDefaults.RATING], this.props.formState[ReviewDefaults.REVIEW]);
     this._submitButtonRef.current.disabled = true;
   }
 
@@ -75,14 +74,14 @@ class ReviewForm extends React.PureComponent {
   render() {
     return (
       <form className="reviews__form form" action="#" method="post" onSubmit={this._handleSubmit}>
-        <label className="reviews__label form__label" htmlFor="review">Your review</label>
+        <label className="reviews__label form__label" htmlFor={ReviewDefaults.REVIEW}>Your review</label>
         <div className="reviews__rating-form form__rating">
           {
-            RATING_VALUES.map((rating, index) => (
+            ReviewDefaults.RATING_VALUES.map((rating, index) => (
               <React.Fragment key={rating.mark}>
                 <input
                   className="form__rating-input visually-hidden"
-                  name="rating"
+                  name={ReviewDefaults.RATING}
                   value={rating.mark}
                   id={`${rating.mark}-stars`}
                   type="radio"
@@ -100,8 +99,8 @@ class ReviewForm extends React.PureComponent {
         </div>
         <textarea
           className="reviews__textarea form__textarea"
-          id="review"
-          name="review"
+          id={ReviewDefaults.REVIEW}
+          name={ReviewDefaults.REVIEW}
           placeholder="Tell how was your stay, what you like and what can be improved"
           onChange={this._handleChange}
           ref = {this._reviewRef}
@@ -109,7 +108,8 @@ class ReviewForm extends React.PureComponent {
         </textarea>
         <div className="reviews__button-wrapper">
           <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe
+          your stay with at least <b className="reviews__text-amount">{ReviewDefaults.MIN_REVIEW_LENGTH} characters</b>.
           </p>
           <button
             className="reviews__submit form__submit button"

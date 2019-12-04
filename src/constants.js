@@ -43,12 +43,17 @@ export const MapDefaults = {
 
 export const isObjectEmpty = (obj) => ((!obj) || (Object.entries(obj).length === 0));
 
-export const RATING_VALUES = [
-  {mark: 5, text: `perfect`},
-  {mark: 4, text: `good`},
-  {mark: 3, text: `not bad`},
-  {mark: 2, text: `badly`},
-  {mark: 1, text: `terribly`},
-];
-
+export const ReviewDefaults = {
+  RATING_VALUES: [
+    {mark: 5, text: `perfect`},
+    {mark: 4, text: `good`},
+    {mark: 3, text: `not bad`},
+    {mark: 2, text: `badly`},
+    {mark: 1, text: `terribly`},
+  ],
+  RATING: `rating`,
+  REVIEW: `review`,
+  MIN_REVIEW_LENGTH: 50,
+  MAX_REVIEW_LENGTH: 300,
+};
 
