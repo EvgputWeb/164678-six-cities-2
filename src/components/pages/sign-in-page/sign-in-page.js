@@ -4,9 +4,14 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Header from '../../header/header';
 import Operation from '../../../store/operation';
+import {Redirect} from 'react-router-dom';
 
 
-const SignInPage = ({city, submitAction}) => {
+const SignInPage = ({isAuthorizationRequired, city, submitAction}) => {
+
+  if (!isAuthorizationRequired) {
+    return (<Redirect to="/login" />);
+  }
 
   let emailInput;
   let passwordInput;
@@ -58,11 +63,13 @@ const SignInPage = ({city, submitAction}) => {
 
 
 SignInPage.propTypes = {
+  isAuthorizationRequired: PropTypes.bool.isRequired,
   city: PropTypes.string.isRequired,
   submitAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (store) => ({
+  isAuthorizationRequired: store.isAuthorizationRequired,
   city: store.city,
 });
 

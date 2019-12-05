@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import history from '../history';
+import {Redirect} from 'react-router-dom';
 
 
 const withAuth = (Component) => {
@@ -12,14 +12,10 @@ const withAuth = (Component) => {
       super(props);
     }
 
-    componentDidMount() {
-      if (this.props.isAuthorizationRequired) {
-        history.push(`/login`);
-      }
-    }
-
     render() {
-      return (<Component {...this.props} />);
+      return (this.props.isAuthorizationRequired) ?
+        (<Redirect to="/login" />) :
+        (<Component {...this.props} />);
     }
   }
 

@@ -2,7 +2,6 @@ import React from 'react';
 import {OFFERS_LIST_PROPTYPE} from '../../common-prop-types';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import history from '../../../history';
 import ActionCreator from '../../../store/action-creator';
 import {getDistanceBetweenTwoPoints, MAX_NEAREST_OFFERS_COUNT, MAX_GALLERY_IMAGES_COUNT} from '../../../constants';
 import Header from '../../header/header';
@@ -12,6 +11,7 @@ import FavButton from '../../fav-button/fav-button';
 import ReviewsList from '../../reviews-list/reviews-list';
 import MapComponent from '../../map-component/map-component';
 import ReviewForm from '../../review-form/review-form';
+import {Redirect} from 'react-router-dom';
 
 
 const renderNearPlace = (offer) => {
@@ -84,35 +84,37 @@ const findNearestOffers = (offer, allOffers, maxCount) => {
 
 
 const OfferDetailsPage = (props) => {
-  const {allOffers, isAuthorizationRequired, onActivateItem, onDeactivateItem} = props;
-  const id = +props.match.params.id;
+  const {allOffers, activeOffer, isAuthorizationRequired, onActivateItem, onDeactivateItem} = props;
 
   if (isAuthorizationRequired) {
-    history.push(`/login`);
+    return (<Redirect to="/login" />);
+  }
+
+  const id = +props.match.params.id;
+
+  if (activeOffer.id !== id) {
+    const filteredOffers = allOffers.filter((offer) => offer.id === id);
+    if (filteredOffers.length === 0) {
+      onDeactivateItem();
+      return (<Redirect to="/" />);
+    }
+    onActivateItem(filteredOffers[0]);
     return null;
   }
 
-  const filteredOffers = allOffers.filter((offer) => offer.id === id);
-  if (filteredOffers.length === 0) {
-    onDeactivateItem();
-    return null;
-  }
-  const offer = filteredOffers[0];
-  onActivateItem(offer);
-
-  const nearestOffers = findNearestOffers(offer, allOffers, MAX_NEAREST_OFFERS_COUNT);
+  const nearestOffers = findNearestOffers(activeOffer, allOffers, MAX_NEAREST_OFFERS_COUNT);
 
   return (
     <div className="page">
       <Header />
       <main className="page__main page__main--property">
         <section className="property">
-          {renderGallery(offer)}
+          {renderGallery(activeOffer)}
           <div className="property__container container">
             <div className="property__wrapper">
-              { (offer.is_premium) && (<div className="property__mark"><span>Premium</span></div>) }
+              { (activeOffer.is_premium) && (<div className="property__mark"><span>Premium</span></div>) }
               <div className="property__name-wrapper">
-                <h1 className="property__name">{offer.title}</h1>
+                <h1 className="property__name">{activeOffer.title}</h1>
                 <FavButton
                   id={id}
                   classPrefix={`property`}
@@ -122,33 +124,33 @@ const OfferDetailsPage = (props) => {
               </div>
               <RatingStars
                 classPrefix={`property`}
-                rating={offer.rating}
+                rating={activeOffer.rating}
                 isValueVisible={true}
               />
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">Entire place</li>
-                <li className="property__feature property__feature--bedrooms">{`${offer.bedrooms} Bedrooms`}</li>
-                <li className="property__feature property__feature--adults">{`Max ${offer.max_adults} adults`}</li>
+                <li className="property__feature property__feature--bedrooms">{`${activeOffer.bedrooms} Bedrooms`}</li>
+                <li className="property__feature property__feature--adults">{`Max ${activeOffer.max_adults} adults`}</li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{offer.price}</b>
+                <b className="property__price-value">&euro;{activeOffer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {offer.goods.map((thing, index) => (<li className="property__inside-item" key={index}>{thing}</li>))}
+                  {activeOffer.goods.map((thing, index) => (<li className="property__inside-item" key={index}>{thing}</li>))}
                 </ul>
               </div>
-              {renderHost(offer)}
+              {renderHost(activeOffer)}
               <section className="property__reviews reviews">
-                <ReviewsList hotelId={id} />
-                {(!isAuthorizationRequired) && (<ReviewForm hotelId={id} />)}
+                <ReviewsList />
+                {(!isAuthorizationRequired) && (<ReviewForm />)}
               </section>
             </div>
           </div>
           <MapComponent
-            list={[offer, ...nearestOffers]}
+            list={[activeOffer, ...nearestOffers]}
             elemToRender={`section property__map map`}
           />
         </section>
@@ -172,11 +174,13 @@ OfferDetailsPage.propTypes = {
   match: PropTypes.object.isRequired,
   onActivateItem: PropTypes.func.isRequired,
   onDeactivateItem: PropTypes.func.isRequired,
+  activeOffer: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (store) => ({
   isAuthorizationRequired: store.isAuthorizationRequired,
   allOffers: store.allOffers,
+  activeOffer: store.activeOffer,
 });
 
 const mapDispatchToProps = (dispatch) => ({

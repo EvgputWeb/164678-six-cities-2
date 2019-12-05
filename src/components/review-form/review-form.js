@@ -44,7 +44,7 @@ class ReviewForm extends React.PureComponent {
       return;
     }
     this._canHandleSubmit = false;
-    this.props.submitReview(this.props.hotelId, this.props.formState[ReviewDefaults.RATING], this.props.formState[ReviewDefaults.REVIEW]);
+    this.props.submitReview(this.props.activeOffer.id, this.props.formState[ReviewDefaults.RATING], this.props.formState[ReviewDefaults.REVIEW]);
     this._submitButtonRef.current.disabled = true;
   }
 
@@ -57,7 +57,7 @@ class ReviewForm extends React.PureComponent {
   }
 
   _getHotelReviewsCount(reviews) {
-    const hotelReviews = reviews.filter((item) => item.hotelId === this.props.hotelId);
+    const hotelReviews = reviews.filter((item) => item.hotelId === this.props.activeOffer.id);
     return (hotelReviews.length === 0) ? (0) : (hotelReviews[0].reviews.length);
   }
 
@@ -127,7 +127,7 @@ class ReviewForm extends React.PureComponent {
 
 
 ReviewForm.propTypes = {
-  hotelId: PropTypes.number.isRequired,
+  activeOffer: PropTypes.object.isRequired,
   reviews: PropTypes.arrayOf(PropTypes.object).isRequired,
   formState: PropTypes.object,
   onFieldChange: PropTypes.func,
@@ -136,6 +136,7 @@ ReviewForm.propTypes = {
 };
 
 const mapStateToProps = (store) => ({
+  activeOffer: store.activeOffer,
   reviews: store.reviews
 });
 

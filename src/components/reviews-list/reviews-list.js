@@ -3,27 +3,39 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Operation from '../../store/operation';
 import Review from '../../components/review/review';
+import withList from '../../hocs/with-list';
 
 
 class ReviewsList extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      reviews: []
-    };
+    this._loadHotelReviews = this._loadHotelReviews.bind(this);
+  }
+
+  _loadHotelReviews() {
+    this.props.onClearList();
+    this.props.loadReviews(this.props.activeOffer.id);
   }
 
   componentDidMount() {
-    this.props.loadReviews(this.props.hotelId);
+    this._loadHotelReviews();
   }
 
-  static getDerivedStateFromProps(nextProps) {
-    const hotelReviews = nextProps.reviews.filter((item) => item.hotelId === nextProps.hotelId);
-    return (hotelReviews.length > 0) ? ({reviews: hotelReviews[0].reviews}) : {reviews: []};
+  componentDidUpdate(prevProps) {
+    if (prevProps.activeOffer.id !== this.props.activeOffer.id) {
+      this._loadHotelReviews();
+    } else if (prevProps.reviews !== this.props.reviews) {
+      const hotelReviews = this.props.reviews.filter((item) => item.hotelId === this.props.activeOffer.id);
+      if (hotelReviews.length > 0) {
+        this.props.onSetList([...hotelReviews[0].reviews]);
+      } else {
+        this.props.onClearList();
+      }
+    }
   }
 
   render() {
-    const list = this.state.reviews;
+    const list = this.props.list;
     if (list.length === 0) {
       return null;
     }
@@ -50,13 +62,17 @@ class ReviewsList extends React.PureComponent {
 
 
 ReviewsList.propTypes = {
-  hotelId: PropTypes.number.isRequired,
+  activeOffer: PropTypes.object.isRequired,
   reviews: PropTypes.arrayOf(PropTypes.object).isRequired,
   loadReviews: PropTypes.func.isRequired,
+  list: PropTypes.array,
+  onSetList: PropTypes.func,
+  onClearList: PropTypes.func,
 };
 
 
 const mapStateToProps = (store) => ({
+  activeOffer: store.activeOffer,
   reviews: store.reviews
 });
 
@@ -68,4 +84,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 
 export {ReviewsList};
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewsList);
+export default connect(mapStateToProps, mapDispatchToProps)(withList(ReviewsList));

@@ -34,6 +34,7 @@ const withFormState = (Component) => {
   WithFormState.propTypes = {
     formState: PropTypes.object,
     onFieldChange: PropTypes.func,
+    onClearFormState: PropTypes.func,
   };
 
   return WithFormState;
