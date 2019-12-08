@@ -1,23 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import Header from '../../header/header';
 import Operation from '../../../store/operation';
+import {Redirect} from 'react-router-dom';
 
 
-const SignInPage = ({submitAction, history}) => {
+const SignInPage = ({isAuthorizationRequired, city, onSubmitAuthData, onSuccessAuth}) => {
+
+  if (!isAuthorizationRequired) {
+    onSuccessAuth();
+    return (<Redirect to="/" />);
+  }
 
   let emailInput;
   let passwordInput;
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    submitAction(emailInput.value, passwordInput.value, history);
+    onSubmitAuthData(emailInput.value, passwordInput.value);
   };
 
   return (
     <div className="page page--gray page--login">
-      <Header userData={{}} />
+      <Header />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -44,9 +51,9 @@ const SignInPage = ({submitAction, history}) => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link to={`/`} className="locations__item-link">
+                <span>{city}</span>
+              </Link>
             </div>
           </section>
         </div>
@@ -57,17 +64,25 @@ const SignInPage = ({submitAction, history}) => {
 
 
 SignInPage.propTypes = {
-  submitAction: PropTypes.func.isRequired,
-  history: PropTypes.object
+  isAuthorizationRequired: PropTypes.bool.isRequired,
+  city: PropTypes.string.isRequired,
+  onSubmitAuthData: PropTypes.func.isRequired,
+  onSuccessAuth: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (store) => ({
+  isAuthorizationRequired: store.isAuthorizationRequired,
+  city: store.city,
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  submitAction: (email, password, history) => {
-    dispatch(Operation.authRequest(email, password, history));
+  onSubmitAuthData: (email, password) => {
+    dispatch(Operation.authRequest(email, password));
   },
+  onSuccessAuth: () => {
+    dispatch(Operation.loadFavorites());
+  }
 });
 
 export {SignInPage};
-export default connect(null, mapDispatchToProps)(SignInPage);
-
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);

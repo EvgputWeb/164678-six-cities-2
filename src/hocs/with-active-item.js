@@ -5,13 +5,12 @@ import PropTypes from 'prop-types';
 const withActiveItem = (Component) => {
 
   class WithActiveItem extends React.PureComponent {
+
     constructor(props) {
       super(props);
-
       this.state = {
         activeItem: this.props.activeItem || null
       };
-
       this._handleActivateItem = this._handleActivateItem.bind(this);
       this._handleDeactivateItem = this._handleDeactivateItem.bind(this);
     }
@@ -34,7 +33,6 @@ const withActiveItem = (Component) => {
         />
       );
     }
-
   }
 
   WithActiveItem.propTypes = {

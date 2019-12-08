@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App renders correctly 1`] = `
+exports[`MainPage renders correctly 1`] = `
 <div
   className="page page--gray page--main"
 >
@@ -19,6 +19,7 @@ exports[`App renders correctly 1`] = `
           <a
             className="header__logo-link header__logo-link--active"
             href="/"
+            onClick={[Function]}
           >
             <img
               alt="6 cities logo"
@@ -40,7 +41,8 @@ exports[`App renders correctly 1`] = `
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                href="#"
+                href="/login"
+                onClick={[Function]}
               >
                 <div
                   className="header__avatar-wrapper user__avatar-wrapper"
@@ -58,7 +60,7 @@ exports[`App renders correctly 1`] = `
     </div>
   </header>
   <main
-    className="page__main page__main--index"
+    className="page__main page__main--indexfalse"
   >
     <h1
       className="visually-hidden"
@@ -84,45 +86,6 @@ exports[`App renders correctly 1`] = `
             >
               <span>
                 Cologne
-              </span>
-            </a>
-          </li>
-          <li
-            className="locations__item"
-          >
-            <a
-              className="locations__item-link tabs__itemfalse"
-              href="#"
-              onClick={[Function]}
-            >
-              <span>
-                Paris
-              </span>
-            </a>
-          </li>
-          <li
-            className="locations__item"
-          >
-            <a
-              className="locations__item-link tabs__itemfalse"
-              href="#"
-              onClick={[Function]}
-            >
-              <span>
-                Amsterdam
-              </span>
-            </a>
-          </li>
-          <li
-            className="locations__item"
-          >
-            <a
-              className="locations__item-link tabs__itemfalse"
-              href="#"
-              onClick={[Function]}
-            >
-              <span>
-                Hamburg
               </span>
             </a>
           </li>
@@ -158,8 +121,10 @@ exports[`App renders correctly 1`] = `
             >
               Sort by
             </span>
+             
             <span
               className="places__sorting-type"
+              onClick={[Function]}
               tabIndex="0"
             >
               Popular
@@ -174,28 +139,32 @@ exports[`App renders correctly 1`] = `
               </svg>
             </span>
             <ul
-              className="places__options places__options--custom places__options--opened"
+              className="places__options places__options--custom false"
             >
               <li
                 className="places__option places__option--active"
+                onClick={[Function]}
                 tabIndex="0"
               >
                 Popular
               </li>
               <li
                 className="places__option"
+                onClick={[Function]}
                 tabIndex="0"
               >
                 Price: low to high
               </li>
               <li
                 className="places__option"
+                onClick={[Function]}
                 tabIndex="0"
               >
                 Price: high to low
               </li>
               <li
                 className="places__option"
+                onClick={[Function]}
                 tabIndex="0"
               >
                 Top rated first
@@ -214,19 +183,20 @@ exports[`App renders correctly 1`] = `
                 className="cities__image-wrapper place-card__image-wrapper"
               >
                 <a
-                  href="#"
+                  href="/offer/1"
+                  onClick={[Function]}
                 >
                   <img
                     alt="Place image"
                     className="place-card__image"
-                    height="200"
+                    height={200}
                     src="https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/14.jpg"
-                    width="260"
+                    width={260}
                   />
                 </a>
               </div>
               <div
-                className="place-card__info"
+                className=" place-card__info"
               >
                 <div
                   className="place-card__price-wrapper"
@@ -248,12 +218,13 @@ exports[`App renders correctly 1`] = `
                   </div>
                   <button
                     className="place-card__bookmark-button  button"
+                    onClick={[Function]}
                     type="button"
                   >
                     <svg
                       className="place-card__bookmark-icon"
-                      height="19"
-                      width="18"
+                      height={19}
+                      width={18}
                     >
                       <use
                         xlinkHref="#icon-bookmark"
@@ -290,7 +261,7 @@ exports[`App renders correctly 1`] = `
                   className="place-card__name"
                 >
                   <a
-                    href="#"
+                    href="/offer/1"
                     onClick={[Function]}
                   >
                     Perfectly located Castro

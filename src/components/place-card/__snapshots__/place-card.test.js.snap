@@ -10,19 +10,20 @@ exports[`PlaceCard renders correctly 1`] = `
     className="cities__image-wrapper place-card__image-wrapper"
   >
     <a
-      href="#"
+      href="/offer/1"
+      onClick={[Function]}
     >
       <img
         alt="Place image"
         className="place-card__image"
-        height="200"
+        height={200}
         src="https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/14.jpg"
-        width="260"
+        width={260}
       />
     </a>
   </div>
   <div
-    className="place-card__info"
+    className=" place-card__info"
   >
     <div
       className="place-card__price-wrapper"
@@ -43,13 +44,14 @@ exports[`PlaceCard renders correctly 1`] = `
         </span>
       </div>
       <button
-        className="place-card__bookmark-button  button"
+        className="place-card__bookmark-button place-card__bookmark-button--active button"
+        onClick={[Function]}
         type="button"
       >
         <svg
           className="place-card__bookmark-icon"
-          height="19"
-          width="18"
+          height={19}
+          width={18}
         >
           <use
             xlinkHref="#icon-bookmark"
@@ -58,7 +60,7 @@ exports[`PlaceCard renders correctly 1`] = `
         <span
           className="visually-hidden"
         >
-          To bookmarks
+          In bookmarks
         </span>
       </button>
     </div>
@@ -86,8 +88,8 @@ exports[`PlaceCard renders correctly 1`] = `
       className="place-card__name"
     >
       <a
-        href="#"
-        onClick={[MockFunction]}
+        href="/offer/1"
+        onClick={[Function]}
       >
         Perfectly located Castro
       </a>

@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {USER_SHAPE_OBJECT} from '../common-prop-types';
+import {isObjectEmpty} from '../../utils';
 
 
 const Header = ({userData}) => {
-  const isUserDataEmpty = (Object.entries(userData).length === 0);
+  const isUserDataEmpty = isObjectEmpty(userData);
   return (
     <header className="header">
       <div className="container">
@@ -45,5 +47,11 @@ Header.propTypes = {
   userData: PropTypes.shape(USER_SHAPE_OBJECT),
 };
 
+const mapStateToProps = (store) => ({
+  userData: store.userData
+});
 
-export default Header;
+
+export {Header};
+export default connect(mapStateToProps)(Header);
+
