@@ -14,7 +14,8 @@ it(`OfferDetailsPage renders correctly`, () => {
     allOffers: [MOCK_OFFER],
     activeOffer: MOCK_OFFER,
     favorites: [],
-    reviews: MOCK_REVIEWS
+    reviews: MOCK_REVIEWS,
+    errorMessage: ``
   };
 
   const store = {

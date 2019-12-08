@@ -5,6 +5,7 @@ import withFormState from '../../hocs/with-form-state';
 import {ReviewDefaults} from '../../constants';
 import {isObjectEmpty} from '../../utils';
 import Operation from '../../store/operation';
+import ErrorMessage from '../../components/error-message/error-message';
 
 
 class ReviewForm extends React.PureComponent {
@@ -67,6 +68,9 @@ class ReviewForm extends React.PureComponent {
   componentDidUpdate(prevProps) {
     if ((prevProps.reviews !== this.props.reviews) && (prevProps.reviews.length !== this.props.reviews.length)) {
       this._resetForm();
+    } else if (this.props.errorMessage) {
+      this._canHandleSubmit = true;
+      this._submitButtonRef.current.disabled = this._handleButtonDisableState() && this._canHandleSubmit;
     }
   }
 
@@ -119,6 +123,7 @@ class ReviewForm extends React.PureComponent {
             Submit
           </button>
         </div>
+        <ErrorMessage />
       </form>
     );
   }
@@ -132,11 +137,13 @@ ReviewForm.propTypes = {
   onFieldChange: PropTypes.func,
   onClearFormState: PropTypes.func,
   submitReview: PropTypes.func,
+  errorMessage: PropTypes.string
 };
 
 const mapStateToProps = (store) => ({
   activeOffer: store.activeOffer,
-  reviews: store.reviews
+  reviews: store.reviews,
+  errorMessage: store.errorMessage
 });
 
 const mapDispatchToProps = (dispatch) => ({

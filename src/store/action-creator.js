@@ -12,6 +12,7 @@ const ActionCreator = {
   loadReviews: (reviews) => ({type: ActionTypes.LOAD_REVIEWS, payload: reviews}),
   changeSortOrder: (sortOrder) => ({type: ActionTypes.CHANGE_SORT_ORDER, payload: sortOrder}),
   changeActiveOffer: (offer) => ({type: ActionTypes.CHANGE_ACTIVE_OFFER, payload: offer}),
+  setErrorMessage: (errorMsg) => ({type: ActionTypes.SET_ERROR_MESSAGE, payload: errorMsg}),
 };
 
 export default ActionCreator;

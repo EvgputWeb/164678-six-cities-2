@@ -64,6 +64,7 @@ class MapComponent extends React.PureComponent {
       places.forEach((place) => this._createMarker(place.location, place.id, false));
     } else {
       places.forEach((place) => this._createMarker(place.location, place.id, (place.id === activeOffer.id)));
+      this._map.flyTo([activeOffer.location.latitude, activeOffer.location.longitude]);
     }
   }
 
@@ -74,6 +75,9 @@ class MapComponent extends React.PureComponent {
     const id = offer.id;
     this._removeMarker(id);
     this._createMarker(offer.location, id, activity);
+    if (activity) {
+      this._map.flyTo([offer.location.latitude, offer.location.longitude]);
+    }
   }
 
   componentDidUpdate(prevProps) {

@@ -1,4 +1,5 @@
 import ActionCreator from './action-creator';
+import {POST_REVIEW_ERROR} from '../constants';
 
 const Operation = {
   loadAllOffers: () => (dispatch, __, api) => {
@@ -51,6 +52,9 @@ const Operation = {
     return api.post(`/comments/${hotelId}`, {rating, comment})
       .then((response) => {
         dispatch(ActionCreator.loadReviews(response.data));
+      })
+      .catch(()=>{
+        dispatch(ActionCreator.setErrorMessage(POST_REVIEW_ERROR));
       });
   },
 };

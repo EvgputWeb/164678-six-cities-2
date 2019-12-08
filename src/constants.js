@@ -40,3 +40,7 @@ export const ReviewDefaults = {
 };
 
 export const MAX_REVIEWS_COUNT_ON_PAGE = 10;
+
+export const ERROR_MESSAGE_HIDE_TIMEOUT = 2500;
+
+export const POST_REVIEW_ERROR = `Sorry. Your review wasn't posted :(`;
