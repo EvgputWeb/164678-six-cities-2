@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RatingStars from '../../components/rating-stars/rating-stars';
+import {capitalizeFirstLetter} from '../../utils';
 
 
 const Review = ({name, avatarUrl, rating, comment, dateStr}) => {
-  const date = new Date(dateStr);
+  const reviewDate = new Date(dateStr);
   return (
     <React.Fragment>
       <div className="reviews__user user">
@@ -19,7 +20,12 @@ const Review = ({name, avatarUrl, rating, comment, dateStr}) => {
           rating={rating}
         />
         <p className="reviews__text">{comment}</p>
-        <time className="reviews__time" dateTime={date}>{date.toLocaleString(`default`, {month: `long`}) + ` ` + date.getFullYear()}</time>
+        <time
+          className="reviews__time"
+          dateTime={reviewDate}
+        >
+          {capitalizeFirstLetter(reviewDate.toLocaleString(`default`, {month: `long`})) + ` ` + reviewDate.getFullYear()}
+        </time>
       </div>
     </React.Fragment>
   );

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {USER_SHAPE_OBJECT} from '../common-prop-types';
-import {isObjectEmpty} from '../../constants';
+import {isObjectEmpty} from '../../utils';
 
 
 const Header = ({userData}) => {

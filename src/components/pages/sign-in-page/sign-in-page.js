@@ -7,10 +7,11 @@ import Operation from '../../../store/operation';
 import {Redirect} from 'react-router-dom';
 
 
-const SignInPage = ({isAuthorizationRequired, city, submitAction}) => {
+const SignInPage = ({isAuthorizationRequired, city, onSubmitAuthData, onSuccessAuth}) => {
 
   if (!isAuthorizationRequired) {
-    return (<Redirect to="/login" />);
+    onSuccessAuth();
+    return (<Redirect to="/" />);
   }
 
   let emailInput;
@@ -18,7 +19,7 @@ const SignInPage = ({isAuthorizationRequired, city, submitAction}) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    submitAction(emailInput.value, passwordInput.value);
+    onSubmitAuthData(emailInput.value, passwordInput.value);
   };
 
   return (
@@ -65,7 +66,8 @@ const SignInPage = ({isAuthorizationRequired, city, submitAction}) => {
 SignInPage.propTypes = {
   isAuthorizationRequired: PropTypes.bool.isRequired,
   city: PropTypes.string.isRequired,
-  submitAction: PropTypes.func.isRequired,
+  onSubmitAuthData: PropTypes.func.isRequired,
+  onSuccessAuth: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (store) => ({
@@ -74,8 +76,11 @@ const mapStateToProps = (store) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  submitAction: (email, password) => {
+  onSubmitAuthData: (email, password) => {
     dispatch(Operation.authRequest(email, password));
+  },
+  onSuccessAuth: () => {
+    dispatch(Operation.loadFavorites());
   }
 });
 

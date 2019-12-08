@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Header from '../../header/header';
 import PlaceCard from '../../place-card/place-card';
-import {isObjectEmpty} from '../../../constants';
+import {isObjectEmpty} from '../../../utils';
 
 
 const renderFooter = () => {
@@ -72,7 +72,6 @@ const FavoritesPage = ({favorites}) => {
                           key={place.id}
                           viewStyle={`stripe`}
                           {...place}
-                          onTitleClick={() => {}}
                           onMouseEnter={() => {}}
                           onMouseLeave={() => {}}
                         />
@@ -95,11 +94,9 @@ FavoritesPage.propTypes = {
   favorites: OFFERS_LIST_PROPTYPE,
 };
 
-
 const mapStateToProps = (store) => ({
   favorites: store.favorites
 });
-
 
 export {FavoritesPage};
 export default connect(mapStateToProps)(FavoritesPage);

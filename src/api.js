@@ -26,6 +26,7 @@ const createAPI = (dispatch) => {
         break;
       }
     }
+
     return Promise.reject(err);
   };
 

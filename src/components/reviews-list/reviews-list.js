@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import Operation from '../../store/operation';
 import Review from '../../components/review/review';
 import withList from '../../hocs/with-list';
+import {isObjectEmpty} from '../../utils';
+import {MAX_REVIEWS_COUNT_ON_PAGE} from '../../constants';
 
 
 class ReviewsList extends React.PureComponent {
@@ -14,23 +16,22 @@ class ReviewsList extends React.PureComponent {
 
   _loadHotelReviews() {
     this.props.onClearList();
-    this.props.loadReviews(this.props.activeOffer.id);
+    if (!isObjectEmpty(this.props.activeOffer)) {
+      this.props.loadReviews(this.props.activeOffer.id);
+    }
   }
 
   componentDidMount() {
-    this._loadHotelReviews();
+    if (this.props.list.length === 0) {
+      this._loadHotelReviews();
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.activeOffer.id !== this.props.activeOffer.id) {
+    if (isObjectEmpty(prevProps.activeOffer) || (prevProps.activeOffer.id !== this.props.activeOffer.id)) {
       this._loadHotelReviews();
     } else if (prevProps.reviews !== this.props.reviews) {
-      const hotelReviews = this.props.reviews.filter((item) => item.hotelId === this.props.activeOffer.id);
-      if (hotelReviews.length > 0) {
-        this.props.onSetList([...hotelReviews[0].reviews]);
-      } else {
-        this.props.onClearList();
-      }
+      this.props.onSetList(this.props.reviews);
     }
   }
 
@@ -39,11 +40,13 @@ class ReviewsList extends React.PureComponent {
     if (list.length === 0) {
       return null;
     }
+    let slicedList = list.slice(0, MAX_REVIEWS_COUNT_ON_PAGE);
+    slicedList.sort((a, b) => ((new Date(b.date)).getTime() - (new Date(a.date)).getTime()));
     return (
       <React.Fragment>
         <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{list.length}</span></h2>
         <ul className="reviews__list">
-          {list.map((review) => (
+          {slicedList.map((review) => (
             <li className="reviews__item" key={review.id}>
               <Review
                 name={review.user.name}
@@ -62,14 +65,13 @@ class ReviewsList extends React.PureComponent {
 
 
 ReviewsList.propTypes = {
-  activeOffer: PropTypes.object.isRequired,
-  reviews: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeOffer: PropTypes.object,
+  reviews: PropTypes.arrayOf(PropTypes.object),
   loadReviews: PropTypes.func.isRequired,
   list: PropTypes.array,
   onSetList: PropTypes.func,
   onClearList: PropTypes.func,
 };
-
 
 const mapStateToProps = (store) => ({
   activeOffer: store.activeOffer,
@@ -82,6 +84,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-
-export {ReviewsList};
 export default connect(mapStateToProps, mapDispatchToProps)(withList(ReviewsList));

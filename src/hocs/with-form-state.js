@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {isObjectEmpty} from '../utils';
+
 
 const withFormState = (Component) => {
 
   class WithFormState extends React.PureComponent {
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = (isObjectEmpty(this.props.formState)) ? ({}) : (this.props.formState);
       this._handleFieldChange = this._handleFieldChange.bind(this);
       this._clearFormState = this._clearFormState.bind(this);
     }
@@ -16,7 +18,9 @@ const withFormState = (Component) => {
     }
 
     _clearFormState() {
-      this.setState({});
+      let emptyState = {};
+      Object.keys(this.state).forEach((key) => (emptyState[key] = null));
+      this.setState(emptyState);
     }
 
     render() {

@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import {connect} from 'react-redux';
 import Operation from '../../store/operation';
+import history from '../../history';
 
 
-const FavButton = ({id, classPrefix, width, height, favorites, addToFavorites, removeFromFavorites}) => {
+const FavButton = ({id, classPrefix, width, height, favorites, addToFavorites, removeFromFavorites, isAuthorizationRequired}) => {
 
-  const isFavorite = (favorites.filter((favOffer) => favOffer.id === id)).length > 0;
+  const isFavorite = (isAuthorizationRequired) ? (false) : ((favorites.filter((favOffer) => favOffer.id === id)).length > 0);
 
-  const handleClick = () => (isFavorite) ? (removeFromFavorites(id)) : (addToFavorites(id));
+  const handleClick = () => {
+    if (isAuthorizationRequired) {
+      history.push(`/login`);
+      return null;
+    }
+    return (isFavorite) ? (removeFromFavorites(id)) : (addToFavorites(id));
+  };
 
   return (
     <button
@@ -34,10 +41,12 @@ FavButton.propTypes = {
   favorites: OFFERS_LIST_PROPTYPE,
   addToFavorites: PropTypes.func.isRequired,
   removeFromFavorites: PropTypes.func.isRequired,
+  isAuthorizationRequired: PropTypes.bool.isRequired
 };
 
 
 const mapStateToProps = (store) => ({
+  isAuthorizationRequired: store.isAuthorizationRequired,
   favorites: store.favorites
 });
 

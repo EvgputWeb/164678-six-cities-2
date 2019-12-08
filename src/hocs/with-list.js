@@ -6,7 +6,7 @@ const withList = (Component) => {
   class WithList extends React.PureComponent {
     constructor(props) {
       super(props);
-      this.state = {list: []};
+      this.state = {list: this.props.list || []};
       this._setList = this._setList.bind(this);
       this._clearList = this._clearList.bind(this);
     }

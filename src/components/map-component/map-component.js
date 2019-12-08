@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {OFFERS_LIST_PROPTYPE} from '../common-prop-types';
 import leaflet from 'leaflet';
-import {MapDefaults, isObjectEmpty} from '../../constants';
+import {MapDefaults} from '../../constants';
+import {isObjectEmpty} from '../../utils';
 
 
 class MapComponent extends React.PureComponent {

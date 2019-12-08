@@ -3,7 +3,7 @@ import {OFFERS_LIST_PROPTYPE} from '../../common-prop-types';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ActionCreator from '../../../store/action-creator';
-import {getDistanceBetweenTwoPoints, MAX_NEAREST_OFFERS_COUNT, MAX_GALLERY_IMAGES_COUNT} from '../../../constants';
+import {MAX_NEAREST_OFFERS_COUNT, MAX_GALLERY_IMAGES_COUNT} from '../../../constants';
 import Header from '../../header/header';
 import RatingStars from '../../rating-stars/rating-stars';
 import PlaceCard from '../../place-card/place-card';
@@ -12,6 +12,7 @@ import ReviewsList from '../../reviews-list/reviews-list';
 import MapComponent from '../../map-component/map-component';
 import ReviewForm from '../../review-form/review-form';
 import {Redirect} from 'react-router-dom';
+import {findNearestOffers} from '../../../utils';
 
 
 const renderNearPlace = (offer) => {
@@ -20,7 +21,6 @@ const renderNearPlace = (offer) => {
       key={offer.id}
       viewStyle={`card`}
       {...offer}
-      onTitleClick={() => {}}
       onMouseEnter={() => {}}
       onMouseLeave={() => {}}
     />
@@ -58,28 +58,6 @@ const renderHost = (offer) => {
       </div>
     </div>
   );
-};
-
-
-const findNearestOffers = (offer, allOffers, maxCount) => {
-  let cityOffers = allOffers.filter((item) => (item.city.name === offer.city.name) && (item.id !== offer.id));
-  if (cityOffers.length === 0) {
-    return [];
-  }
-  if (cityOffers.length < maxCount) {
-    return cityOffers;
-  }
-  let distances = [];
-  for (let i = 0; i < cityOffers.length; i++) {
-    distances.push({
-      index: i,
-      distance: getDistanceBetweenTwoPoints(offer.location, cityOffers[i].location)
-    });
-  }
-  distances.sort((a, b) => (a.distance - b.distance));
-  let nearest = [];
-  [...distances.slice(0, maxCount)].forEach((item) => nearest.push(cityOffers[item.index]));
-  return nearest;
 };
 
 

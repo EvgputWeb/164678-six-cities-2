@@ -20,7 +20,6 @@ const PlacesList = ({list, onActivateItem, onDeactivateItem}) => {
           key={place.id}
           viewStyle={`card`}
           {...place}
-          onTitleClick={() => {}}
           onMouseEnter={mouseEnterHandler(place)}
           onMouseLeave={mouseLeaveHandler}
         />

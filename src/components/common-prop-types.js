@@ -44,7 +44,6 @@ const PLACECARD_SHAPE_OBJECT = Object.assign({},
       viewStyle: string.isRequired,
       onMouseEnter: func.isRequired,
       onMouseLeave: func.isRequired,
-      onTitleClick: func.isRequired,
     }
 );
 

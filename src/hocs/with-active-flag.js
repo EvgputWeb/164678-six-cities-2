@@ -8,9 +8,7 @@ const withActiveFlag = (Component) => {
 
     constructor(props) {
       super(props);
-      this.state = {
-        isActive: this.props.isActive || false
-      };
+      this.state = {isActive: this.props.isActive || false};
       this._handleSwitchState = this._handleSwitchState.bind(this);
     }
 
@@ -21,11 +19,10 @@ const withActiveFlag = (Component) => {
     }
 
     render() {
-      const {isActive} = this.state;
       return (
         <Component
           {...this.props}
-          isActive={isActive}
+          isActive={this.state.isActive}
           onSwitchState={this._handleSwitchState}
         />
       );

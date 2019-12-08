@@ -1,33 +1,44 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import MainPage from './main-page';
+import {MemoryRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import {App} from './app.js';
-import MOCK_OFFER from '../../mocks/mock-offer';
+import MOCK_OFFER from '../../../mocks/mock-offer';
+import {SORT_ORDERS} from '../../../constants';
 
 
-it(`App renders correctly`, () => {
+it(`MainPage renders correctly`, () => {
+
+  const state = {
+    isAuthorizationRequired: false,
+    allOffers: [MOCK_OFFER],
+    citiesList: [MOCK_OFFER.city.name],
+    city: MOCK_OFFER.city.name,
+    cityOffers: [MOCK_OFFER],
+    favorites: [],
+    sortOrder: SORT_ORDERS[0]
+  };
+
+  const store = {
+    default: jest.fn(),
+    subscribe: jest.fn(),
+    dispatch: jest.fn(),
+    getState: () => state,
+  };
+
   const div = global.document.createElement(`div`);
   div.id = `map`;
   global.document.body.appendChild(div);
 
-  const list = [MOCK_OFFER.city.name, `Paris`, `Amsterdam`, `Hamburg`];
-  const activeCity = MOCK_OFFER.city.name;
-  const cityOffers = [MOCK_OFFER];
-
-  const app = renderer
+  const mainPage = renderer
     .create(
-        <Provider store={createStore(jest.fn())}>
-          <App
-            isAuthorizationRequired = {false}
-            userData = {{}}
-            citiesList = {list}
-            city = {activeCity}
-            cityOffers = {cityOffers}
-          />
+        <Provider store={store}>
+          <MemoryRouter>
+            <MainPage />
+          </MemoryRouter>
         </Provider>
     )
     .toJSON();
 
-  expect(app).toMatchSnapshot();
+  expect(mainPage).toMatchSnapshot();
 });

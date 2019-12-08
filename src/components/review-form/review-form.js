@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import withFormState from '../../hocs/with-form-state';
-import {isObjectEmpty, ReviewDefaults} from '../../constants';
+import {ReviewDefaults} from '../../constants';
+import {isObjectEmpty} from '../../utils';
 import Operation from '../../store/operation';
 
 
@@ -16,6 +17,7 @@ class ReviewForm extends React.PureComponent {
     this._submitButtonRef = React.createRef();
     this._canHandleSubmit = true;
     this._handleChange = this._handleChange.bind(this);
+    this._isFormStateEmpty = this._isFormStateEmpty.bind(this);
     this._handleButtonDisableState = this._handleButtonDisableState.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
     this._resetForm = this._resetForm.bind(this);
@@ -26,6 +28,11 @@ class ReviewForm extends React.PureComponent {
     const name = elem.getAttribute(`name`);
     const value = e.nativeEvent.target.value;
     this.props.onFieldChange(name, value);
+  }
+
+  _isFormStateEmpty() {
+    const formState = this.props.formState;
+    return (isObjectEmpty(formState) || (!formState[ReviewDefaults.RATING]) || (!formState[ReviewDefaults.REVIEW]));
   }
 
   _handleButtonDisableState() {
@@ -40,11 +47,12 @@ class ReviewForm extends React.PureComponent {
 
   _handleSubmit(e) {
     e.preventDefault();
-    if (!this._canHandleSubmit) {
+    if ((!this._canHandleSubmit) || (this._isFormStateEmpty())) {
       return;
     }
+    const formState = this.props.formState;
     this._canHandleSubmit = false;
-    this.props.submitReview(this.props.activeOffer.id, this.props.formState[ReviewDefaults.RATING], this.props.formState[ReviewDefaults.REVIEW]);
+    this.props.submitReview(this.props.activeOffer.id, formState[ReviewDefaults.RATING], formState[ReviewDefaults.REVIEW]);
     this._submitButtonRef.current.disabled = true;
   }
 
@@ -56,18 +64,9 @@ class ReviewForm extends React.PureComponent {
     this._canHandleSubmit = true;
   }
 
-  _getHotelReviewsCount(reviews) {
-    const hotelReviews = reviews.filter((item) => item.hotelId === this.props.activeOffer.id);
-    return (hotelReviews.length === 0) ? (0) : (hotelReviews[0].reviews.length);
-  }
-
   componentDidUpdate(prevProps) {
-    if (prevProps.reviews !== this.props.reviews) {
-      const prevReviewsCount = this._getHotelReviewsCount(prevProps.reviews);
-      const curReviewsCount = this._getHotelReviewsCount(this.props.reviews);
-      if (curReviewsCount !== prevReviewsCount) {
-        this._resetForm();
-      }
+    if ((prevProps.reviews !== this.props.reviews) && (prevProps.reviews.length !== this.props.reviews.length)) {
+      this._resetForm();
     }
   }
 

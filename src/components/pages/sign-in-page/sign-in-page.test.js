@@ -1,14 +1,33 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {SignIn} from './sign-in';
+import SignInPage from './sign-in-page';
+import {MemoryRouter} from 'react-router-dom';
+import {Provider} from 'react-redux';
 
 
-it(`SignIn renders correctly`, () => {
-  const signInComponent = renderer
-    .create(<SignIn
-      submitAction = {jest.fn()}
-    />)
+it(`SignInPage renders correctly`, () => {
+
+  const state = {
+    isAuthorizationRequired: true,
+    city: `Paris`
+  };
+
+  const store = {
+    default: jest.fn(),
+    subscribe: jest.fn(),
+    dispatch: jest.fn(),
+    getState: () => state,
+  };
+
+  const signInPage = renderer
+    .create(
+        <Provider store={store}>
+          <MemoryRouter>
+            <SignInPage />
+          </MemoryRouter>
+        </Provider>
+    )
     .toJSON();
 
-  expect(signInComponent).toMatchSnapshot();
+  expect(signInPage).toMatchSnapshot();
 });

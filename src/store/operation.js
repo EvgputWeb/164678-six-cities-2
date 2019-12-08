@@ -1,12 +1,12 @@
 import ActionCreator from './action-creator';
-import history from '../history';
 
 const Operation = {
   loadAllOffers: () => (dispatch, __, api) => {
     return api.get(`/hotels`)
       .then((response) => {
         dispatch(ActionCreator.loadAllOffers(response.data));
-        const initialCity = response.data[0].city.name;
+        const randomOfferIndex = Math.floor(Math.random() * response.data.length);
+        const initialCity = response.data[randomOfferIndex].city.name;
         dispatch(ActionCreator.changeCity(initialCity));
       });
   },
@@ -15,9 +15,11 @@ const Operation = {
       .then((response) => {
         dispatch(ActionCreator.needAuth(false));
         dispatch(ActionCreator.saveUserData(response.data));
-        history.push(`/`);
-        return api.get(`/favorite`);
-      }).then((response) => {
+      });
+  },
+  loadFavorites: () => (dispatch, __, api) => {
+    return api.get(`/favorite`)
+      .then((response) => {
         dispatch(ActionCreator.loadFavorites(response.data));
       });
   },
@@ -42,17 +44,15 @@ const Operation = {
   loadReviews: (hotelId) => (dispatch, __, api) => {
     return api.get(`/comments/${hotelId}`)
       .then((response) => {
-        dispatch(ActionCreator.loadReviews({hotelId, reviews: response.data}));
+        dispatch(ActionCreator.loadReviews(response.data));
       });
   },
   postReview: (hotelId, rating, comment) => (dispatch, __, api) => {
     return api.post(`/comments/${hotelId}`, {rating, comment})
       .then((response) => {
-        dispatch(ActionCreator.loadReviews({hotelId, reviews: response.data}));
+        dispatch(ActionCreator.loadReviews(response.data));
       });
   },
-
-
 };
 
 export default Operation;
