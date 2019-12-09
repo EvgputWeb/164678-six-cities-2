@@ -24,7 +24,7 @@ const Review = ({name, avatarUrl, rating, comment, dateStr}) => {
           className="reviews__time"
           dateTime={reviewDate}
         >
-          {capitalizeFirstLetter(reviewDate.toLocaleString(`default`, {month: `long`})) + ` ` + reviewDate.getFullYear()}
+          {capitalizeFirstLetter(reviewDate.toLocaleString(`en-us`, {month: `long`})) + ` ` + reviewDate.getFullYear()}
         </time>
       </div>
     </React.Fragment>

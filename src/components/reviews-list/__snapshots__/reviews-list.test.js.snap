@@ -70,7 +70,7 @@ Array [
           className="reviews__time"
           dateTime={2019-10-10T16:30:55.555Z}
         >
-          M10 2019
+          October 2019
         </time>
       </div>
     </li>
@@ -129,7 +129,7 @@ Array [
           className="reviews__time"
           dateTime={2019-05-08T14:13:56.569Z}
         >
-          M05 2019
+          May 2019
         </time>
       </div>
     </li>
